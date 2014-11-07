@@ -1,0 +1,41 @@
+{
+	"manifest_version": 2,
+	"name": "MasterPassword for Chrome",
+	"version": "0.9",
+	"default_locale": "en",
+	"minimum_chrome_version": "38",
+
+	"permissions": [
+		"activeTab",
+		"storage"
+	],
+
+	"background": {
+		"scripts": [
+			"background.js",
+			"lib/traceur-runtime.js",
+			"lib/setImmediate-polyfill.js",
+			"lib/hmac-sha256.js",
+			"lib/lib-typedarrays-min.js",
+			"lib/scrypt-asm.js",
+			"lib/scrypt.js",
+			"lib/mpw.js"
+		]
+	},
+
+	"content_scripts": [{
+		"matches": [ "*://*/*" ],
+		"js": [ "content.js" ],
+		"all_frames": true
+	}],
+
+	"options_page": "options.html",
+
+	"page_action": {
+		"default_title": "MasterPassword",
+		"default_popup": "popup.html",
+		"default_icon": "res/icon38.png"
+	},
+
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}

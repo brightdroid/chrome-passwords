@@ -1,0 +1,112 @@
+{
+	"app_title": {
+		"message": "Master Password"
+	},
+	"master_password": {
+		"message": "Master Password"
+	},
+	"counter": {
+		"message": "Zähler"
+	},
+	"domain": {
+		"message": "Domain"
+	},
+	"template": {
+		"message": "Template"
+	},
+
+	"opt_tabsettings": {
+		"message": "Einstellungen"
+	},
+	"opt_tababout": {
+		"message": "Über"
+	},
+
+	"opt_sec_user": {
+		"message": "Authentifizierung"
+	},
+	"opt_sec_defaults": {
+		"message": "Standards"
+	},
+
+	"opt_username": {
+		"message": "Benutzername"
+	},
+
+	"opt_topdomain": {
+		"message": "Benutze die Toplevel Domain"
+	},
+	"opt_topdomain_desc": {
+		"message": "Wähle, welcher Teil der Domain benutzt wird."
+	},
+
+	"opt_template_desc": {
+		"message": "Wähle das Standard Passwort Template."
+	},
+	"template_maximum": {
+		"message": "Maximum"
+	},
+	"template_long": {
+		"message": "Lang"
+	},
+	"template_medium": {
+		"message": "Mittel"
+	},
+	"template_basic": {
+		"message": "Basis"
+	},
+	"template_short": {
+		"message": "Kurz"
+	},
+	"template_pin": {
+		"message": "PIN"
+	},
+	"template_name": {
+		"message": "Name"
+	},
+	"template_phrase": {
+		"message": "Satz"
+	},
+
+	"button_settings": {
+		"message": "Einstellungen"
+	},
+	"button_generate": {
+		"message": "Generieren"
+	},
+	"button_save": {
+		"message": "Speichern"
+	},
+	"alert_input_invalid": {
+		"message": "Ungültige Eingaben, wirklich schließen?"
+	},
+
+
+	"opt_about_author": {
+		"message": "Autor"
+	},
+	"opt_about_version": {
+		"message": "Version"
+	},
+	"opt_about_slogan": {
+		"message": "Sichere dein Leben, vergesse deine Passwörter."
+	},
+	"opt_about_links": {
+		"message": "Weitere Informationen"
+	},
+	"opt_about_links_security": {
+		"message": "Ist es sicher?"
+	},
+	"opt_about_links_faq": {
+		"message": "FAQ"
+	},
+	"opt_about_links_source": {
+		"message": "Quelltext"
+	},
+	"opt_about_licence": {
+		"message": "Lizenzen"
+	},
+	"opt_about_licence_desc": {
+		"message": "Danke an die folgenden Open Source Biblotheken, welche diese Extension erst möglich machen."
+	}
+}

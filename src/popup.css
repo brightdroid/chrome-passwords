@@ -1,0 +1,113 @@
+body, form, ul, li, p, h2, h3, h4, h5
+{
+	margin: 0;
+	padding: 0;
+}
+body
+{
+	background-color: #fbfbfb;
+	color: #222;
+}
+
+img
+{
+	border: none;
+}
+
+h1
+{
+	margin: 0 0 1em;
+	font-size: 1.5em;
+	font-weight: normal;
+}
+
+
+/* Form styles */
+form
+{
+	margin: 1em;
+	width: 25em;
+}
+form ol
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+form li
+{
+	margin: 0 0 1em;
+	position: relative;
+}
+form label
+{
+	width: 10em;
+	display: inline-block;
+	vertical-align: middle;
+}
+form input,
+form select
+{
+	display: inline-block;
+	width: 10em;
+	background-color: #fff;
+	border: 1px solid #eee;
+	border-radius: 5px;
+	padding: 3px .5em 3px 3px;
+	transition: background-color 1s ease;
+}
+form input[type=number],
+form select
+{
+	width: 11em;
+	padding: 3px;
+}
+form #submit button
+{
+	width: auto;
+	margin-left: 10em;
+	padding: .5em;
+	background: #fff;
+	border-width: 1px;
+}
+form #submit button + img
+{
+	margin-left: 1em;
+}
+
+form #submit
+{
+	font-size: 1em;
+	margin: 0 0 1em;
+}
+
+/* form validation */
+input:focus:required:invalid
+{
+	background-color: pink;
+}
+input:required:valid
+{
+	background-color: #fff;
+}
+
+
+/**
+ * footer links
+ */
+#foot
+{
+	padding: 1em;
+	border-top: 1px solid #e5e5e5;
+	background-color: #f5f5f5;
+}
+#foot a
+{
+	color: #555;
+	text-decoration: none;
+	font-size: .9em;
+}
+#foot a:hover
+{
+	color: #333;
+}

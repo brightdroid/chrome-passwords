@@ -1,0 +1,66 @@
+<html>
+<head>
+    <title data-i18n="app_title"></title>
+    <link href="options.css" rel="stylesheet" type="text/css">
+    <script src="i18n.js"></script>
+    <script src="options.js"></script>
+</head>
+<body>
+	<div id="navigation">
+		<header>
+			<h1 data-i18n="app_title"><h1>
+		</header>
+		<nav>
+			<ul>
+				<li class="selected"><a href="options.html" data-i18n="opt_tabsettings"></a></li>
+				<!--<li><a href="hosts.html" data-i18n="opt_tabhosts"></a></li>-->
+				<li class="about"><a href="about.html" data-i18n="opt_tababout"></a></li>
+			</ul>
+		</nav>
+	</div>
+    <div id="content">
+		<header>
+			<h2 data-i18n="opt_tabsettings"><h2>
+		</header>
+
+		<form>
+			<section>
+				<h3 data-i18n="opt_sec_user"></h3>
+
+				<section>
+					<p data-i18n="opt_sec_user_desc"></p>
+					<label><span data-i18n="opt_username"></span> <input type="text" id="username" data-option="opt:username" required></label>
+				</section>
+
+			</section>
+
+			<section>
+				<h3 data-i18n="opt_sec_defaults"></h3>
+
+				<section>
+					<p data-i18n="opt_topdomain_desc"></p>
+					<label><input type="checkbox" id="topdomain" data-option="opt:topdomain"> <span data-i18n="opt_topdomain"></span></label>
+				</section>
+
+				<section>
+					<p data-i18n="opt_template_desc"></p>
+					<select name="template" id="template" data-option="opt:template" required>
+						<option value="maximum" data-i18n="template_maximum"></option>
+						<option value="long" data-i18n="template_long" selected></option>
+						<option value="medium" data-i18n="template_medium"></option>
+						<option value="basic" data-i18n="template_basic"></option>
+						<option value="short" data-i18n="template_short"></option>
+						<option value="pin" data-i18n="template_pin"></option>
+						<option value="name" data-i18n="template_name"></option>
+						<option value="phrase" data-i18n="template_phrase"></option>
+					</select>
+				</section>
+			</section>
+
+			<div>
+				<button data-i18n="button_save"></button>
+			</div>
+		</form>
+    </div>
+</body>
+</html>

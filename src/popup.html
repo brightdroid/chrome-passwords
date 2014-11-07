@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+	<head>
+		<title data-i18n="app_title"></title>
+		<link href="popup.css" rel="stylesheet" type="text/css">
+		<script src="i18n.js"></script>
+		<script src="popup.js"></script>
+	</head>
+	<body>
+		<form>
+			<h1 data-i18n="app_title"></h1>
+			<ol>
+				<li>
+					<label for="password" data-i18n="master_password"></label>
+					<input type="password" name="password" id="password" required>
+				</li>
+
+				<li>
+					<label for="counter" data-i18n="counter"></label>
+					<input type="number" name="counter" id="counter" min="1" max="65535" value="1" required>
+				</li>
+
+				<li>
+					<label for="domain" data-i18n="domain"></label>
+					<input type="text" name="domain" id="domain" required>
+				</li>
+
+				<li>
+					<label for="template" data-i18n="template"></label>
+					<select name="template" id="template" required>
+						<option value="maximum" data-i18n="template_maximum"></option>
+						<option value="long" data-i18n="template_long"></option>
+						<option value="medium" data-i18n="template_medium"></option>
+						<option value="basic" data-i18n="template_basic"></option>
+						<option value="short" data-i18n="template_short"></option>
+						<option value="pin" data-i18n="template_pin"></option>
+						<option value="name" data-i18n="template_name"></option>
+						<option value="phrase" data-i18n="template_phrase"></option>
+					</select>
+				</li>
+			</ol>
+
+			<div id="submit">
+				<button data-i18n="button_generate"></button>
+				<img src="res/loading.gif" style="display:none">
+			</div>
+		</form>
+
+		<p id="foot">
+			<a href="#" id="settings" data-i18n="button_settings"></a>
+		</p>
+	</body>
+</html>

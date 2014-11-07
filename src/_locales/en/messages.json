@@ -1,0 +1,111 @@
+{
+	"app_title": {
+		"message": "Master Password"
+	},
+	"master_password": {
+		"message": "Master Password"
+	},
+	"counter": {
+		"message": "Counter"
+	},
+	"domain": {
+		"message": "Domain"
+	},
+	"template": {
+		"message": "Template"
+	},
+
+	"opt_tabsettings": {
+		"message": "Settings"
+	},
+	"opt_tababout": {
+		"message": "About"
+	},
+
+	"opt_sec_user": {
+		"message": "Authentification"
+	},
+	"opt_sec_defaults": {
+		"message": "Defaults"
+	},
+
+	"opt_username": {
+		"message": "Username"
+	},
+
+	"opt_topdomain": {
+		"message": "Use top level domain"
+	},
+	"opt_topdomain_desc": {
+		"message": "Choose which part of the domain should be used."
+	},
+
+	"opt_template_desc": {
+		"message": "Select the default password template."
+	},
+	"template_maximum": {
+		"message": "Maximum"
+	},
+	"template_long": {
+		"message": "Long"
+	},
+	"template_medium": {
+		"message": "Medium"
+	},
+	"template_basic": {
+		"message": "Basic"
+	},
+	"template_short": {
+		"message": "Short"
+	},
+	"template_pin": {
+		"message": "PIN"
+	},
+	"template_name": {
+		"message": "Name"
+	},
+	"template_phrase": {
+		"message": "Phrase"
+	},
+
+	"button_settings": {
+		"message": "Settings"
+	},
+	"button_generate": {
+		"message": "Generate"
+	},
+	"button_save": {
+		"message": "Save"
+	},
+	"alert_input_invalid": {
+		"message": "Invalid input, really close?"
+	},
+
+	"opt_about_author": {
+		"message": "Author"
+	},
+	"opt_about_version": {
+		"message": "Version"
+	},
+	"opt_about_slogan": {
+		"message": "Secure your life, forget your passwords."
+	},
+	"opt_about_links": {
+		"message": "Further information"
+	},
+	"opt_about_links_security": {
+		"message": "Is it safe?"
+	},
+	"opt_about_links_faq": {
+		"message": "FAQ"
+	},
+	"opt_about_links_source": {
+		"message": "Source Code"
+	},
+	"opt_about_licence": {
+		"message": "Licences"
+	},
+	"opt_about_licence_desc": {
+		"message": "Thanks to the following open source libraries which made this extension possible."
+	}
+}
