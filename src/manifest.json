@@ -37,5 +37,15 @@
 		"default_icon": "res/icon38.png"
 	},
 
-	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+	
+	"commands": {
+		"_execute_page_action": {
+			"suggested_key": {
+				"default": "Alt+P",
+				"windows": "Alt+P",
+				"mac": "Alt+P"
+			}
+		}
+	}
 }
