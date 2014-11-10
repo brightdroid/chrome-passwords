@@ -28,6 +28,10 @@
 		"js": [ "content.js" ],
 		"all_frames": true
 	}],
+	
+	"web_accessible_resources": [
+		"res/*.png"
+	],
 
 	"options_page": "options.html",
 
