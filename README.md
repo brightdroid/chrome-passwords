@@ -1,4 +1,4 @@
-# "Chrome Passwords" Extension
+# Chrome Passwords - Extension
 
 This is an unofficial Chrome Extension of the [MasterPasswordApp](http://masterpasswordapp.com/)
 
