@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
-	"name": "MasterPassword for Chrome",
-	"version": "0.9",
+	"name": "Chrome Passwords",
+	"version": "1.0",
 	"default_locale": "en",
 	"minimum_chrome_version": "38",
 
@@ -28,7 +28,7 @@
 		"js": [ "content.js" ],
 		"all_frames": true
 	}],
-	
+
 	"web_accessible_resources": [
 		"res/*.png"
 	],
@@ -36,13 +36,13 @@
 	"options_page": "options.html",
 
 	"page_action": {
-		"default_title": "MasterPassword",
+		"default_title": "Chrome Passwords",
 		"default_popup": "popup.html",
 		"default_icon": "res/icon38.png"
 	},
 
 	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-	
+
 	"commands": {
 		"_execute_page_action": {
 			"suggested_key": {
