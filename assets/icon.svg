@@ -13,11 +13,11 @@
    height="128"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
-   sodipodi:docname="iconv.svg"
-   inkscape:export-filename="/home/chris/Dokumente/Coding/Chrome/mpw-chrome/res/icon38.png"
-   inkscape:export-xdpi="26.71875"
-   inkscape:export-ydpi="26.71875">
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="icon.svg"
+   inkscape:export-filename="/home/chris/Dokumente/Coding/Chrome/chrome-passwords/src/res/icon128.png"
+   inkscape:export-xdpi="92.550003"
+   inkscape:export-ydpi="92.550003">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -33,9 +33,9 @@
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1600"
-     inkscape:window-height="1145"
-     inkscape:window-x="-4"
+     inkscape:window-width="1680"
+     inkscape:window-height="995"
+     inkscape:window-x="-2"
      inkscape:window-y="-3"
      inkscape:window-maximized="1" />
   <metadata
@@ -63,7 +63,7 @@
        sodipodi:cy="120.13889"
        sodipodi:rx="15.972222"
        sodipodi:ry="15.972222"
-       d="m 54.166665,120.13889 a 15.972222,15.972222 0 1 1 -31.944445,0 15.972222,15.972222 0 1 1 31.944445,0 z"
+       d="m 54.166665,120.13889 c 0,8.82122 -7.151007,15.97223 -15.972222,15.97223 -8.821215,0 -15.972223,-7.15101 -15.972223,-15.97223 0,-8.82121 7.151008,-15.97222 15.972223,-15.97222 8.821215,0 15.972222,7.15101 15.972222,15.97222 z"
        transform="matrix(0.66779089,0,0,0.66779089,2.7024304,908.13452)" />
     <path
        sodipodi:type="arc"
@@ -73,7 +73,7 @@
        sodipodi:cy="120.13889"
        sodipodi:rx="15.972222"
        sodipodi:ry="15.972222"
-       d="m 54.166665,120.13889 a 15.972222,15.972222 0 1 1 -31.944445,0 15.972222,15.972222 0 1 1 31.944445,0 z"
+       d="m 54.166665,120.13889 c 0,8.82122 -7.151007,15.97223 -15.972222,15.97223 -8.821215,0 -15.972223,-7.15101 -15.972223,-15.97223 0,-8.82121 7.151008,-15.97222 15.972223,-15.97222 8.821215,0 15.972222,7.15101 15.972222,15.97222 z"
        transform="matrix(0.66779089,0,0,0.66779089,29.901501,908.13452)" />
     <path
        sodipodi:type="arc"
@@ -83,7 +83,7 @@
        sodipodi:cy="120.13889"
        sodipodi:rx="15.972222"
        sodipodi:ry="15.972222"
-       d="m 54.166665,120.13889 a 15.972222,15.972222 0 1 1 -31.944445,0 15.972222,15.972222 0 1 1 31.944445,0 z"
+       d="m 54.166665,120.13889 c 0,8.82122 -7.151007,15.97223 -15.972222,15.97223 -8.821215,0 -15.972223,-7.15101 -15.972223,-15.97223 0,-8.82121 7.151008,-15.97222 15.972223,-15.97222 8.821215,0 15.972222,7.15101 15.972222,15.97222 z"
        transform="matrix(0.66779089,0,0,0.66779089,57.100572,908.13452)" />
     <rect
        style="fill:#555555;fill-opacity:1;fill-rule:evenodd;stroke:#555555;stroke-opacity:1"

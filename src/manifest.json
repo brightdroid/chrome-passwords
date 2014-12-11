@@ -10,6 +10,11 @@
 		"storage"
 	],
 
+	"icons": {
+		"48": "res/icon48.png",
+		"128": "res/icon128.png"
+	},
+
 	"background": {
 		"scripts": [
 			"background.js",
