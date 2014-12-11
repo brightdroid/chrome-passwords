@@ -1,6 +1,6 @@
-# MasterPassword for Chrome
+# "Chrome Passwords" Extension
 
-This is a Chrome Extension of the [MasterPasswordApp](http://masterpasswordapp.com/)
+This is an unofficial Chrome Extension of the [MasterPasswordApp](http://masterpasswordapp.com/)
 
 **Note:** When finish it will be published in the Chrome Webstore
 
