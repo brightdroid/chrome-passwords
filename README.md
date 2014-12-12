@@ -2,7 +2,7 @@
 
 This is an unofficial Chrome Extension of the [Master Password algorithm](http://masterpasswordapp.com/algorithm.html)
 
-**Note:** When finish it will be published in the Chrome Webstore
+ * [Chrome Web Store](https://chrome.google.com/webstore/detail/chrome-passwords/injddhenpdfbccendcpjghdclnadepnp)
 
 ## Licence
 
