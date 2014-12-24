@@ -45,8 +45,13 @@ form label
 	display: inline-block;
 	vertical-align: middle;
 }
+form #cleartextPass label
+{
+	vertical-align: top;
+}
 form input,
-form select
+form select,
+form textarea
 {
 	display: inline-block;
 	width: 10em;
@@ -61,6 +66,10 @@ form select
 {
 	width: 11em;
 	padding: 3px;
+}
+form input[type=checkbox]
+{
+	width: auto;
 }
 form #submit button
 {

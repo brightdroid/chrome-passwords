@@ -14,6 +14,12 @@
 	"template": {
 		"message": "Template"
 	},
+	"show_password": {
+		"message": "Show Password"
+	},
+	"password": {
+		"message": "Passwort"
+	},
 
 	"opt_tabsettings": {
 		"message": "Settings"
@@ -73,6 +79,9 @@
 	},
 	"button_generate": {
 		"message": "Generate"
+	},
+	"button_accept": {
+		"message": "Accept"
 	},
 	"button_save": {
 		"message": "Save"

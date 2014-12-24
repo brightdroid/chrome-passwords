@@ -1,13 +1,13 @@
 /**
- * found password fields? show PageAction icon
+ * show PageAction icon
  */
-//if (document.querySelector("input[type=password]"))
-//{
-	chrome.runtime.sendMessage({
-		from: "content",
-		action: "showPageAction"
-	});
-//}
+var contentPort = chrome.runtime.connect({name: "content"});
+
+contentPort.postMessage({
+	from: "content",
+	action: "showPageAction"
+});
+
 
 
 /**
@@ -17,13 +17,13 @@ function toggleMPW(e)
 {
 	elm = e.target;
 	val = elm.getAttribute("data-mpw");
-	
+
 	// disable
 	if (val && val == "true")
 	{
 		elm.style.backgroundPositionX = "-100px";
 		elm.setAttribute("data-mpw", false);
-		
+
 	}
 	// enable
 	else
@@ -35,6 +35,7 @@ function toggleMPW(e)
 		elm.setAttribute("data-mpw", true);
 	}
 }
+
 
 
 /**
@@ -50,29 +51,26 @@ for (i = 0; i < fields.length; i++)
 /**
  * extension messaging
  */
-chrome.runtime.onMessage.addListener(function(msg, sender, response)
+chrome.runtime.onConnect.addListener(function(port)
 {
-	if (msg.from == "background" && msg.action === "setPassword")
+	port.onMessage.addListener(function(msg)
 	{
-		// are there selected fields?
-		fields = document.querySelectorAll("input[type=password][data-mpw=true]");
-		
-		// no selected fields found, find all!
-		if (fields.length == 0)
+		if (msg.from == "popup" && msg.action === "setPassword")
 		{
-			fields = document.querySelectorAll("input[type=password]")
+			// are there selected fields?
+			fields = document.querySelectorAll("input[type=password][data-mpw=true]");
+
+			// no selected fields found, find all
+			if (fields.length == 0)
+			{
+				fields = document.querySelectorAll("input[type=password]")
+			}
+
+			// update values
+			for (i=0; i < fields.length; i++)
+			{
+				fields[i].value = msg.password;
+			}
 		}
-		
-		// update values
-		for (i=0; i < fields.length; i++)
-		{
-			fields[i].value = msg.password;
-		}
-		
-		// close popup
-		chrome.runtime.sendMessage({
-			from: "content",
-			action: "closePopup"
-		});
-	}
+	});
 });

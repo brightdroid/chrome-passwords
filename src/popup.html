@@ -11,8 +11,8 @@
 			<h1 data-i18n="app_title"></h1>
 			<ol>
 				<li>
-					<label for="password" data-i18n="master_password"></label>
-					<input type="password" name="password" id="password" required>
+					<label for="master" data-i18n="master_password"></label>
+					<input type="password" name="master" id="master" required>
 				</li>
 
 				<li>
@@ -38,10 +38,22 @@
 						<option value="phrase" data-i18n="template_phrase"></option>
 					</select>
 				</li>
+
+				<li>
+					<label for="cleartext" data-i18n="show_password"></label>
+					<input type="checkbox" name="cleartext" id="cleartext" value="1">
+				</li>
+
+				<li id="cleartextPass" style="display: none;">
+					<label for="password" data-i18n="password"></label>
+					<textarea name="password" id="password" disabled></textarea>
+				</li>
+
 			</ol>
 
 			<div id="submit">
 				<button data-i18n="button_generate"></button>
+				<button data-i18n="button_accept" style="display: none;"></button>
 				<img src="res/loading.gif" style="display:none">
 			</div>
 		</form>
