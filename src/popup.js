@@ -103,6 +103,12 @@ window.addEventListener("load", function()
 		setPassword(document.querySelector("textarea[name=password]").value);
 	});
 
+	// textarea
+	document.querySelector("#password").addEventListener("click", function(e)
+	{
+		this.select();
+	});
+
 	// form submit handler
 	document.querySelector("form").addEventListener("submit", function(e)
 	{
@@ -123,6 +129,7 @@ window.addEventListener("load", function()
 
 		popupPort.postMessage(request);
 	});
+
 
     /**
 	 * load current settings
