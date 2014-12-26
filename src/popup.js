@@ -12,7 +12,6 @@ popupPort.onMessage.addListener(function(msg)
 	{
 		// disable loading icon
 		document.querySelector("#submit img").style.display = "none";
-		document.querySelector("button[data-i18n=button_generate]").style.display = "";
 
 		// close window when cleartext is not checked
 		if (!document.querySelector("#cleartext").checked)
@@ -25,6 +24,7 @@ popupPort.onMessage.addListener(function(msg)
 		{
 			document.querySelector("textarea[name=password]").value = msg.password;
 			document.querySelector("#cleartextPass").style.display = "";
+			document.querySelector("button[data-i18n=button_generate]").style.display = "";
 			document.querySelector("button[data-i18n=button_accept]").style.display = "";
 		}
 	}
