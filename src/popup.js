@@ -58,14 +58,6 @@ function setPassword(pass)
 }
 
 
-/**
- *
- */
-function formSubmit(btnStyle)
-{
-
-}
-
 
 /**
  * popup loaded...
