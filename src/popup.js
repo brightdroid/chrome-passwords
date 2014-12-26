@@ -12,6 +12,7 @@ popupPort.onMessage.addListener(function(msg)
 	{
 		// disable loading icon
 		document.querySelector("#submit img").style.display = "none";
+		document.querySelector("button[data-i18n=button_generate]").style.display = "";
 
 		// close window when cleartext is not checked
 		if (!document.querySelector("#cleartext").checked)
@@ -56,6 +57,14 @@ function setPassword(pass)
 	);
 }
 
+
+/**
+ *
+ */
+function formSubmit(btnStyle)
+{
+
+}
 
 
 /**
@@ -114,7 +123,10 @@ window.addEventListener("load", function()
 	{
 		e.preventDefault();
 
-		// loading icon
+		// hide elements & show loading icon
+		document.querySelector("#cleartextPass").style.display = "none";
+		document.querySelector("button[data-i18n=button_generate]").style.display = "none";
+		document.querySelector("button[data-i18n=button_accept]").style.display = "none";
 		document.querySelector("#submit img").style.display = "";
 
 		// request password

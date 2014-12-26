@@ -22,7 +22,9 @@ h1
 }
 
 
-/* Form styles */
+/**
+ * Form styles
+ */
 form
 {
 	margin: 1em;
@@ -47,7 +49,7 @@ form label
 }
 form #cleartextPass label
 {
-	vertical-align: top;
+	font-weight: bold;
 }
 form input,
 form select,
@@ -61,6 +63,12 @@ form textarea
 	padding: 3px .5em 3px 3px;
 	transition: background-color 1s ease;
 }
+form #cleartextPass textarea
+{
+	width: 20em;
+	height: 1.5em;
+	font-size: 1.5em;
+}
 form input[type=number],
 form select
 {
@@ -71,23 +79,28 @@ form input[type=checkbox]
 {
 	width: auto;
 }
-form #submit button
+
+/* submit buttons */
+#submit button
 {
 	width: auto;
-	margin-left: 10em;
 	padding: .5em;
 	background: #fff;
 	border-width: 1px;
 }
-form #submit button + img
+#submit button + button
 {
 	margin-left: 1em;
 }
-
-form #submit
+#submit button + img
 {
-	font-size: 1em;
+	margin-left: 1em;
+}
+#submit
+{
 	margin: 0 0 1em;
+	text-align: center;
+	font-size: 1em;
 }
 
 /* form validation */
@@ -99,6 +112,7 @@ input:required:valid
 {
 	background-color: #fff;
 }
+
 
 
 /**
