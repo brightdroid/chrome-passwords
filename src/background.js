@@ -1,16 +1,24 @@
 /**
- * content messages
+ * use declarativeContent to show PageAction icon
  */
-function onMessageContent(msg, port)
+var match_rules = {
+	conditions: [
+		new chrome.declarativeContent.PageStateMatcher({
+			css: ["input[type=password]"]
+		})
+	],
+	actions: [
+		new chrome.declarativeContent.ShowPageAction()
+	]
+};
+
+chrome.runtime.onInstalled.addListener(function(details)
 {
-	/**
-	 * display PageAction Icon
-	 */
-	if (msg.action == "showPageAction" && port.sender.tab.id)
+	chrome.declarativeContent.onPageChanged.removeRules(undefined, function()
 	{
-		chrome.pageAction.show(port.sender.tab.id);
-	}
-}
+		chrome.declarativeContent.onPageChanged.addRules([match_rules]);
+	});
+});
 
 
 
@@ -63,14 +71,8 @@ function onMessagePopup(msg, port)
  */
 chrome.runtime.onConnect.addListener(function(port)
 {
-	// content channel
-	if (port.name == "content")
-	{
-		port.onMessage.addListener(onMessageContent);
-
-	}
 	// popup channel
-	else if (port.name == "popup")
+	if (port.name == "popup")
 	{
 		port.onMessage.addListener(onMessagePopup);
 	}

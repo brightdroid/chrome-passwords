@@ -1,16 +1,4 @@
 /**
- * show PageAction icon
- */
-var contentPort = chrome.runtime.connect({name: "content"});
-
-contentPort.postMessage({
-	from: "content",
-	action: "showPageAction"
-});
-
-
-
-/**
  * password field selection
  */
 function toggleMPW(e)
