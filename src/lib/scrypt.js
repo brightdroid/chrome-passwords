@@ -1,9 +1,9 @@
 window.scrypt = function() {
-  var SCRYPT_MEMORY = 512 * 1024 * 1024;
+  var SCRYPT_MEMORY = 64 * 1024 * 1024;
   try {
     var scripts = document.getElementsByTagName("script");
     var scryptwrkr = new Worker(URL.createObjectURL(new Blob([("!" + function() {
-      var SCRYPT_MEMORY = 512 * 1024 * 1024;
+      var SCRYPT_MEMORY = 64 * 1024 * 1024;
       importScripts("{{scrypt-asm.js}}");
       var scrypt_module = scrypt_module_factory(SCRYPT_MEMORY);
       var $traceurRuntime = {assertObject: (function(a) {
