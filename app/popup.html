@@ -1,65 +1,118 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="utf-8">
 		<title data-i18n="app_title"></title>
-		<link href="popup.css" rel="stylesheet" type="text/css">
-		<script src="i18n.js"></script>
-		<script src="popup.js"></script>
+		<link href="styles/main.css" rel="stylesheet" type="text/css">
+		<link href="styles/popup.css" rel="stylesheet" type="text/css">
+
+		<!-- process:remove:dist -->
+		<script src="http://localhost:35730/livereload.js"></script>
+		<!-- /process -->
+
+		<!-- build:js scripts/jquery.js -->
+		<script src="bower_components/jquery/dist/jquery.js"></script>
+		<!-- endbuild -->
+
+		<script src="scripts/main.js"></script>
+		<script src="scripts/popup.js"></script>
+
+		<!-- build:js scripts/bootstrap.js -->
+		<script src="bower_components/bootstrap/js/affix.js"></script>
+		<script src="bower_components/bootstrap/js/alert.js"></script>
+		<script src="bower_components/bootstrap/js/dropdown.js"></script>
+		<script src="bower_components/bootstrap/js/tooltip.js"></script>
+		<script src="bower_components/bootstrap/js/modal.js"></script>
+		<script src="bower_components/bootstrap/js/transition.js"></script>
+		<script src="bower_components/bootstrap/js/button.js"></script>
+		<script src="bower_components/bootstrap/js/popover.js"></script>
+		<script src="bower_components/bootstrap/js/carousel.js"></script>
+		<script src="bower_components/bootstrap/js/scrollspy.js"></script>
+		<script src="bower_components/bootstrap/js/collapse.js"></script>
+		<script src="bower_components/bootstrap/js/tab.js"></script>
+		<!-- endbuild -->
 	</head>
 	<body>
-		<form>
-			<h1 data-i18n="app_title"></h1>
-			<ol>
-				<li>
-					<label for="master" data-i18n="master_password"></label>
-					<input type="password" name="master" id="master" required>
-				</li>
-
-				<li>
-					<label for="counter" data-i18n="counter"></label>
-					<input type="number" name="counter" id="counter" min="1" max="65535" value="1" required>
-				</li>
-
-				<li>
-					<label for="domain" data-i18n="domain"></label>
-					<input type="text" name="domain" id="domain" required>
-				</li>
-
-				<li>
-					<label for="template" data-i18n="template"></label>
-					<select name="template" id="template" required>
-						<option value="maximum" data-i18n="template_maximum"></option>
-						<option value="long" data-i18n="template_long"></option>
-						<option value="medium" data-i18n="template_medium"></option>
-						<option value="basic" data-i18n="template_basic"></option>
-						<option value="short" data-i18n="template_short"></option>
-						<option value="pin" data-i18n="template_pin"></option>
-						<option value="name" data-i18n="template_name"></option>
-						<option value="phrase" data-i18n="template_phrase"></option>
-					</select>
-				</li>
-
-				<li>
-					<label for="cleartext" data-i18n="show_password"></label>
-					<input type="checkbox" name="cleartext" id="cleartext" value="1">
-				</li>
-
-				<li id="cleartextPass" style="display: none;">
-					<label for="password" data-i18n="password"></label>
-					<textarea name="password" id="password" readonly></textarea>
-				</li>
-
-			</ol>
-
-			<div id="submit">
-				<button data-i18n="button_generate"></button>
-				<button data-i18n="button_accept" style="display: none;"></button>
-				<img src="res/loading.gif" style="display:none">
+		<div class="container-fluid">
+			<div class="page-header">
+				<h1 data-i18n="app_title"></h1>
 			</div>
-		</form>
+		</div>
 
-		<p id="foot">
-			<a href="#" id="settings" data-i18n="button_settings"></a>
-		</p>
+		<div class="container-fluid">
+			<div class="row">
+
+				<div class="content">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label class="control-label" for="master" data-i18n="master_password"></label>
+							<div>
+								<input type="password" class="form-control" name="master" id="master" required>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label" for="counter" data-i18n="counter"></label>
+							<div>
+								<input type="number" class="form-control" name="counter" id="counter" min="1" max="65535" value="1" required>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label" for="domain" data-i18n="domain"></label>
+							<div>
+								<input type="text" class="form-control" name="domain" id="domain" required>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="template" class="control-label" data-i18n="opt_template"></label>
+							<div>
+								<select class="form-control" name="template" id="template" required>
+									<option value="maximum" data-i18n="template_maximum"></option>
+									<option value="long" data-i18n="template_long" selected></option>
+									<option value="medium" data-i18n="template_medium"></option>
+									<option value="basic" data-i18n="template_basic"></option>
+									<option value="short" data-i18n="template_short"></option>
+									<option value="pin" data-i18n="template_pin"></option>
+									<option value="name" data-i18n="template_name"></option>
+									<option value="phrase" data-i18n="template_phrase"></option>
+								</select>
+								<span class="help-block" data-i18n="opt_template_desc"></span>
+							</div>
+						</div>
+
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" name="cleartext" id="cleartext" value="1"> <span data-i18n="show_password"></span>
+							</label>
+						</div>
+
+						<div class="form-group hidden">
+							<label class="control-label" for="password" data-i18n="password"></label>
+							<div>
+								<textarea class="form-control" name="password" id="password" readonly></textarea>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<button type="submit" class="btn btn-default" data-i18n="button_generate"></button>
+								<button class="btn btn-default" data-i18n="button_accept" style="display: none;"></button>
+								<img src="res/loading.gif" style="display:none">
+							</div>
+						</div>
+					</form>
+
+				</div><!-- /content -->
+
+				<div class="container-fluid">
+					<a href="#" id="settings" data-i18n="button_settings"></a>
+				</div>
+
+			</div><!-- /row -->
+
+		</div><!-- /container-fluid -->
+
 	</body>
 </html>

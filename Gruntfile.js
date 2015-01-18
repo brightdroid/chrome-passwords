@@ -136,15 +136,16 @@ module.exports = function (grunt) {
 
 		less: {
 			dist: {
-				files: {
-					'<%= config.app %>/styles/main.css': ['<%= config.app %>/styles/main.less']
-				},
 				options: {
-					sourceMap: true,
-					sourceMapFilename: '<%= config.app %>/styles/main.css.map',
-					sourceMapBasepath: '<%= config.app %>/',
-					sourceMapRootpath: '/'
-				}
+					paths: ["<%= config.app %>/styles/"]
+				},
+				files: [{
+					expand: true,
+					cwd: '<%= config.app %>/styles',
+					src: '[^_]*.less',
+					dest: '<%= config.app %>/styles',
+					ext: ".css"
+				}]
 			}
 		},
 
@@ -392,12 +393,12 @@ module.exports = function (grunt) {
 	]);
 
 	grunt.registerTask('build', [
-		'update_json',
+		//'update_json',
 		'clean:dist',
 		'chromeManifest:dist',
 		'useminPrepare',
 		'concurrent:dist',
-		'cssmin',
+		//'cssmin',
 		//'concat',
 		'uglify',
 		'copy',
