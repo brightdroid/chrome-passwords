@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title data-i18n="app_title"></title>
+		<link href="styles/main.css" rel="stylesheet" type="text/css">
+
+		<!-- process:remove:dist -->
+		<script src="http://localhost:35730/livereload.js"></script>
+		<!-- /process -->
+
+		<!-- build:js scripts/jquery.js -->
+		<script src="bower_components/jquery/dist/jquery.js"></script>
+		<!-- endbuild -->
+
+		<script src="scripts/main.js"></script>
+		<script src="scripts/about.js"></script>
+
+		<!-- build:js scripts/bootstrap.js -->
+		<script src="bower_components/bootstrap/js/affix.js"></script>
+		<script src="bower_components/bootstrap/js/alert.js"></script>
+		<script src="bower_components/bootstrap/js/dropdown.js"></script>
+		<script src="bower_components/bootstrap/js/tooltip.js"></script>
+		<script src="bower_components/bootstrap/js/modal.js"></script>
+		<script src="bower_components/bootstrap/js/transition.js"></script>
+		<script src="bower_components/bootstrap/js/button.js"></script>
+		<script src="bower_components/bootstrap/js/popover.js"></script>
+		<script src="bower_components/bootstrap/js/carousel.js"></script>
+		<script src="bower_components/bootstrap/js/scrollspy.js"></script>
+		<script src="bower_components/bootstrap/js/collapse.js"></script>
+		<script src="bower_components/bootstrap/js/tab.js"></script>
+		<!-- endbuild -->
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="page-header">
+				<h1 data-i18n="app_title"></h1>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+			<div class="row">
+
+				<div class="sidebar">
+					<ul class="nav nav-sidebar">
+						<li><a href="options.html" data-i18n="opt_tabsettings"></a></li>
+						<li><a href="domains.html" data-i18n="opt_tabdomains"></a></li>
+						<li><a href="templates.html" data-i18n="opt_tabtemplates"></a></li>
+						<li class="active about"><a href="about.html" data-i18n="opt_tababout"></a></li>
+					</ul>
+				</div>
+
+				<div class="content">
+					<h2 class="sub-header" data-i18n="opt_tababout"></h2>
+
+					<blockquote>
+						<p data-i18n="opt_about_slogan"></p>
+						<footer>
+							<cite><a href="http://masterpasswordapp.com/">masterpasswordapp.com</a></cite>
+						</footer>
+					</blockquote>
+
+					<h3 data-i18n="app_title"></h3>
+					<dl class="dl-horizontal">
+						<dt data-i18n="opt_about_author"></dt>
+						<dd>Christoph Roeder</dd>
+
+						<dt data-i18n="opt_about_version"></dt>
+						<dd id="version"></dd>
+					</dl>
+
+					<h3 data-i18n="opt_about_links"></h3>
+					<ul>
+						<li><a href="http://masterpasswordapp.com/security.html" data-i18n="opt_about_links_security"></a></li>
+						<li><a href="http://masterpasswordapp.com/faq.html" data-i18n="opt_about_links_faq"></a></li>
+						<li><a href="https://github.com/brightdroid/chrome-masterpassword" data-i18n="opt_about_links_source"></a></li>
+					</ul>
+
+					<h3 data-i18n="opt_about_licence"></h3>
+					<p data-i18n="opt_about_licence_desc"></p>
+					<ul>
+						<li><a href="https://github.com/tmthrgd/mpw-js">mpw-js</a> (<a href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>)</li>
+					</ul>
+
+				</div><!-- /content -->
+
+			</div><!-- /row -->
+
+		</div><!-- /container-fluid -->
+
+	</body>
+</html>

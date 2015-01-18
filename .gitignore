@@ -1,0 +1,9 @@
+node_modules
+temp
+.tmp
+dist
+app/bower_components
+app/styles/*.css
+app/styles/*.map
+test/bower_components
+package

@@ -28,26 +28,31 @@
 		"message": "About"
 	},
 
-	"opt_sec_user": {
-		"message": "Authentification"
-	},
-	"opt_sec_defaults": {
-		"message": "Defaults"
-	},
-
 	"opt_username": {
 		"message": "Username"
 	},
-
-	"opt_topdomain": {
-		"message": "Use top level domain"
-	},
-	"opt_topdomain_desc": {
-		"message": "Choose which part of the domain should be used."
+	"opt_username_desc": {
+		"message": "This username should never change because it is part of the master password!"
 	},
 
+	"opt_domainpart": {
+		"message": "Domain Security"
+	},
+	"opt_domainpart_desc": {
+		"message": "What part of the domain to be used as a password key."
+	},
+	"domainpart_first": {
+		"message": "first part of the domain"
+	},
+	"domainpart_full": {
+		"message": "entire domain"
+	},
+
+	"opt_template": {
+		"message": "Default Template"
+	},
 	"opt_template_desc": {
-		"message": "Select the default password template."
+		"message": "In addition, <a href=\"templates.html\"> own templates can be created."
 	},
 	"template_maximum": {
 		"message": "Maximum"
@@ -88,6 +93,12 @@
 	},
 	"alert_input_invalid": {
 		"message": "Invalid input, really close?"
+	},
+	"alert_form_error": {
+		"message": "Not all fields are filled!"
+	},
+	"alert_form_save": {
+		"message": "Saved!"
 	},
 
 	"opt_about_author": {

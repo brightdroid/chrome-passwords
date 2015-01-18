@@ -1,0 +1,99 @@
+/**
+ * Bootstrap
+ */
+@import "bootstrap.less";
+@import "variables.less";
+
+
+/**
+ * Base structure
+ */
+.page-header h1
+{
+	color: @gray-light;
+}
+
+.sidebar
+{
+	.make-xs-column(3);
+	padding-left: 0;
+
+	.nav li a
+	{
+		border-left: 6px solid transparent;
+	}
+	.nav li.active a
+	{
+		border-left: 6px solid @gray;
+	}
+	.nav a
+	{
+		color: @gray-dark;
+	}
+	.nav .about
+	{
+		padding-top: @padding-large-vertical;
+	}
+}
+
+.content
+{
+	.make-xs-column(9);
+}
+
+
+
+/**
+ * header
+ */
+.page-header
+{
+	margin: 0;
+}
+
+
+
+/**
+ * Global add-ons
+ */
+.sub-header
+{
+  padding-bottom: 10px;
+}
+
+
+
+/**
+ * domains
+ */
+.table-domains
+{
+	.table;
+	.table-striped;
+}
+.table-domains tbody tr td
+{
+	vertical-align: middle;
+}
+.table-domains td:nth-child(2),
+.table-domains th:nth-child(2),
+.table-domains td:nth-child(4),
+.table-domains th:nth-child(4)
+{
+	text-align: center;
+}
+
+
+/**
+ * formular
+ */
+.form-group label
+{
+	.make-xs-column(2);
+}
+
+.form-group label + div
+{
+	.make-xs-column(8);
+}
+
