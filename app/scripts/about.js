@@ -1,6 +1,4 @@
-window.addEventListener("load", function()
+$(function()
 {
-	var manifest = chrome.runtime.getManifest();
-
-	document.querySelector("#version").innerHTML = manifest.version;
+	$("#version").text(chrome.runtime.getManifest().version);
 });
