@@ -181,25 +181,18 @@ module.exports = function (grunt) {
 			}
 		},
 
-		// Reads HTML for usemin blocks to enable smart builds that automatically
-		// concat, minify and revision files. Creates configurations in memory so
-		// additional tasks can operate on them
 		useminPrepare: {
+			html: '<%= config.app %>/{,*/}*.html',
 			options: {
 				dest: '<%= config.dist %>'
-			},
-			html: [
-				'<%= config.app %>/{,*/}*.html'
-			]
+			}
 		},
-
-		// Performs rewrites based on rev and the useminPrepare configuration
 		usemin: {
-			options: {
-				assetsDirs: ['<%= config.dist %>', '<%= config.dist %>/images']
-			},
 			html: ['<%= config.dist %>/{,*/}*.html'],
-			css: ['<%= config.dist %>/styles/{,*/}*.css']
+			css: ['<%= config.dist %>/styles/{,*/}*.css'],
+			options: {
+				dirs: ['<%= config.dist %>']
+			}
 		},
 
 		// The following *-min tasks produce minifies files in the dist folder
@@ -367,7 +360,9 @@ module.exports = function (grunt) {
 					dest: 'dist/'   // Destination path prefix.
 				}]
 			}
-		}
+		},
+
+
 	});
 
 
@@ -394,17 +389,17 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('build', [
 		//'update_json',
+		//'chromeManifest:dist',
 		'clean:dist',
-		'chromeManifest:dist',
 		'useminPrepare',
 		'concurrent:dist',
 		//'cssmin',
-		//'concat',
+		'concat',
 		'uglify',
 		'copy',
 		'usemin',
 		'processhtml:dist',
-		'compress'
+//		'compress'
 	]);
 
 	grunt.registerTask('default', [
