@@ -19,21 +19,6 @@ module.exports = function (grunt) {
 		// Project settings
 		config: config,
 
-		update_json: {
-			// set some task-level options
-			options: {
-				src: "package.json",
-				indent: "\t"
-			},
-
-			bower: {
-				src: "package.json",
-				dest: "bower.json",
-				// the fields to update, as a String Grouping
-				fields: "name version description repository"
-			},
-		},
-
 		// Watches files for changes and runs tasks based on the changed files
 		watch: {
 			less: {
@@ -46,15 +31,10 @@ module.exports = function (grunt) {
 					reload: true
 				}
 			},
-			bower: {
-				files: ["bower.json"],
-				tasks: ["bowerInstall"]
+			js: {
+				files: ["<%= config.app %>/scripts/*.js"],
+				tasks: ["jshint"]
 			},
-//
-// 			js: {
-//				files: ["<%= config.app %>/scripts/{,*/}*.js"],
-//				tasks: ["jshint"]
-//			},
 			code: {
 				options: {
 					livereload: "<%= connect.code.options.livereload %>"
@@ -64,10 +44,8 @@ module.exports = function (grunt) {
 					"{.tmp,<%= config.app %>}/styles/{,*/}*.css",
 					"{.tmp,<%= config.app %>}/scripts/{,*/}*.js",
 					"<%= config.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}",
-
 				]
 			},
-
 			chrome: {
 				options: {
 					livereload: "<%= connect.chrome.options.livereload %>"
@@ -160,15 +138,6 @@ module.exports = function (grunt) {
 					run: true,
 					urls: ["http://localhost:<%= connect.test.options.port %>/options.html"]
 				}
-			}
-		},
-
-		// Automatically inject Bower components into the HTML file
-		bowerInstall: {
-			app: {
-				src: [
-					"<%= config.app %>/*.html"
-				]
 			}
 		},
 
@@ -346,14 +315,12 @@ module.exports = function (grunt) {
 			}
 		},
 
-
 	});
 
 
 	grunt.registerTask("debug", function () {
 		grunt.task.run([
 			"clean:server",
-//			"jshint",
 			"less",
 			"copy:server",
 			"concurrent:chrome",
@@ -372,7 +339,6 @@ module.exports = function (grunt) {
 	]);
 
 	grunt.registerTask("build", [
-		//"update_json",
 		//"chromeManifest:dist",
 		"clean",
 		"useminPrepare",

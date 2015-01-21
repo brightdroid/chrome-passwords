@@ -1,10 +1,8 @@
 {
-	"name": "chrome extension",
-	"version": "1.0.0",
+	"name": "chrome-passwords",
 	"dependencies": {
 		"bootstrap": "~3.3.1",
 		"font-awesome": "latest",
 		"jquery": "latest"
-	},
-	"devDependencies": {}
+	}
 }
