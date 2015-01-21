@@ -8,9 +8,14 @@
 /**
  * Base structure
  */
-.page-header h1
+.page-header
 {
-	color: @gray-light;
+	margin: 0;
+
+	h1
+	{
+		color: @gray-light;
+	}
 }
 
 .sidebar
@@ -36,20 +41,66 @@
 	}
 }
 
-.content
+#options
 {
-	.make-xs-column(9);
+	.content
+	{
+		.make-xs-column(9);
+
+		.form-group label
+		{
+			.make-xs-column(2);
+		}
+
+		.form-group label + div
+		{
+			.make-xs-column(8);
+		}
+	}
+}
+
+#popup
+{
+	width: 25em;
+
+	.container
+	{
+		padding: 0;
+
+		.page-header
+		{
+			margin-bottom: @line-height-computed;
+
+			h1
+			{
+				font-size: @font-size-h3;
+			}
+		}
+
+		.row
+		{
+			margin: 0 @grid-gutter-width/2;
+		}
+	}
+
+	.content
+	{
+		.make-xs-column(12);
+
+		#submit
+		{
+			.text-center();
+			margin-top: @line-height-computed;
+		}
+	}
+
+	.nav
+	{
+		margin-top: @line-height-computed;
+	}
 }
 
 
-
-/**
- * header
- */
-.page-header
-{
-	margin: 0;
-}
 
 
 
@@ -82,18 +133,3 @@
 {
 	text-align: center;
 }
-
-
-/**
- * formular
- */
-.form-group label
-{
-	.make-xs-column(2);
-}
-
-.form-group label + div
-{
-	.make-xs-column(8);
-}
-

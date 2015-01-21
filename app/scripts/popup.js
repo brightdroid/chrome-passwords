@@ -41,10 +41,10 @@ popupPort.onMessage.addListener(function(msg)
 	if (msg.from == "background" && msg.action == "passwordResult")
 	{
 		// disable loading icon
-		document.querySelector("#submit img").style.display = "none";
+		$("#submit img").addClass("hidden");
 
 		// close window when cleartext is not checked
-		if (!document.querySelector("#cleartext").checked)
+		if (!$("#cleartext").is(":checked"))
 		{
 			setPassword(msg.password);
 
@@ -52,10 +52,9 @@ popupPort.onMessage.addListener(function(msg)
 		// show accept button & password
 		else
 		{
-			document.querySelector("textarea[name=password]").value = msg.password;
-			document.querySelector("#cleartextPass").style.display = "";
-			document.querySelector("button[data-i18n=button_generate]").style.display = "";
-			document.querySelector("button[data-i18n=button_accept]").style.display = "";
+			$("textarea[name=password]").val(msg.password);
+			$("#password").parent().removeClass("hidden");
+			$("#submit button").removeClass("hidden");
 		}
 	}
 });
@@ -65,7 +64,7 @@ popupPort.onMessage.addListener(function(msg)
 /**
  * popup loaded...
  */
-window.addEventListener("load", function()
+$(function()
 {
 	/**
 	 * check if username is empty
@@ -74,11 +73,9 @@ window.addEventListener("load", function()
 	{
 		if (prefs["opt:username"] === undefined || prefs["opt:username"].length < 1)
 		{
-			chrome.tabs.create(
-				{
-					"url": chrome.extension.getURL("options.html?error=username")
-				}
-			);
+			chrome.tabs.create({
+				"url": chrome.extension.getURL("options.html?error=username")
+			});
 		}
 	});
 
@@ -87,51 +84,50 @@ window.addEventListener("load", function()
 	 * add events && init
 	 */
 	// focus password field
-	document.querySelector("input[name=master]").focus();
+	$("input[name=master]").focus();
 
 	// settings link
-	document.querySelector("#settings").addEventListener("click", function(e)
-	{
-		chrome.tabs.create(
-			{
-				"url": chrome.extension.getURL("options.html")
-			}
-		);
-	});
-
-	// accept button
-	document.querySelector("button[data-i18n=button_accept]").addEventListener("click", function(e)
+	$("#settings").click(function(e)
 	{
 		e.preventDefault();
 
-		setPassword(document.querySelector("textarea[name=password]").value);
+		chrome.tabs.create({
+			"url": chrome.extension.getURL("options.html")
+		});
+	});
+
+	// accept button
+	$("button[data-i18n=button_accept]").click(function(e)
+	{
+		e.preventDefault();
+
+		setPassword($("textarea[name=password]").val());
 	});
 
 	// textarea
-	document.querySelector("#password").addEventListener("click", function(e)
+	$("#password").click(function(e)
 	{
-		this.select();
+		$(this).select();
 	});
 
 	// form submit handler
-	document.querySelector("form").addEventListener("submit", function(e)
+	$("form").submit(function(e)
 	{
 		e.preventDefault();
 
 		// hide elements & show loading icon
-		document.querySelector("#cleartextPass").style.display = "none";
-		document.querySelector("button[data-i18n=button_generate]").style.display = "none";
-		document.querySelector("button[data-i18n=button_accept]").style.display = "none";
-		document.querySelector("#submit img").style.display = "";
+		$("#password").parent().addClass("hidden");
+		$("#submit button").addClass("hidden");
+		$("#submit img").removeClass("hidden");
 
 		// request password
 		var request = {
 			from: "popup",
 			action: "generate",
-			master: document.querySelector("input[name=master]").value,
-			domain: document.querySelector("input[name=domain]").value,
-			template: document.querySelector("select[name=template]").value,
-			counter: document.querySelector("input[name=counter]").value
+			master: $("input[name=master]").val(),
+			domain: $("input[name=domain]").val(),
+			template: $("select[name=template]").val(),
+			counter: $("input[name=counter]").val()
 		};
 
 		popupPort.postMessage(request);
@@ -152,11 +148,11 @@ window.addEventListener("load", function()
 				"opt:topdomain",
 				"opt:template"
 			];
-			var prefs = {};
 			var domain = result[0];
+
 			chrome.storage.sync.get(options, function(p)
 			{
-				prefs = p;
+				var prefs = p;
 
 				// prefill domain
 				if (prefs["opt:topdomain"])
@@ -167,12 +163,12 @@ window.addEventListener("load", function()
 						domain = host[host.length-2] + "." + host[host.length-1];
 					}
 				}
-				document.querySelector("#domain").value = domain;
+				$("#domain").val(domain);
 
 				// select template
 				if (prefs["opt:template"])
 				{
-					document.querySelector("#template").value = prefs["opt:template"];
+					$("#template").val(prefs["opt:template"]);
 				}
 			});
 		}

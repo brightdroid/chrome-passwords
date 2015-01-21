@@ -6,9 +6,6 @@
 		<!-- build:css styles/main.min.css -->
 		<link href="styles/main.css" rel="stylesheet" type="text/css">
 		<!-- endbuild -->
-		<!-- build:css styles/popup.min.css -->
-		<link href="styles/popup.css" rel="stylesheet" type="text/css">
-		<!-- endbuild -->
 
 		<!-- process:remove:dist -->
 		<script src="http://localhost:35730/livereload.js"></script>
@@ -35,54 +32,44 @@
 		<script src="scripts/popup.js"></script>
 		<!-- endbuild -->
 	</head>
-	<body>
-		<div class="container-fluid">
-			<div class="page-header">
-				<h1 data-i18n="app_title"></h1>
-			</div>
-		</div>
-
-		<div class="container-fluid">
+	<body id="popup">
+		<div class="container">
 			<div class="row">
+				<div class="page-header">
+					<h1 data-i18n="app_title"></h1>
+				</div>
+			</div>
 
+			<div class="row">
 				<div class="content">
 					<form class="form-horizontal">
 						<div class="form-group">
 							<label class="control-label" for="master" data-i18n="master_password"></label>
-							<div>
-								<input type="password" class="form-control" name="master" id="master" required>
-							</div>
+							<input type="password" class="form-control input-sm" name="master" id="master" required>
 						</div>
 
 						<div class="form-group">
 							<label class="control-label" for="counter" data-i18n="counter"></label>
-							<div>
-								<input type="number" class="form-control" name="counter" id="counter" min="1" max="65535" value="1" required>
-							</div>
+							<input type="number" class="form-control input-sm" name="counter" id="counter" min="1" max="65535" value="1" required>
 						</div>
 
 						<div class="form-group">
 							<label class="control-label" for="domain" data-i18n="domain"></label>
-							<div>
-								<input type="text" class="form-control" name="domain" id="domain" required>
-							</div>
+							<input type="text" class="form-control input-sm" name="domain" id="domain" required>
 						</div>
 
 						<div class="form-group">
 							<label for="template" class="control-label" data-i18n="template"></label>
-							<div>
-								<select class="form-control" name="template" id="template" required>
-									<option value="maximum" data-i18n="template_maximum"></option>
-									<option value="long" data-i18n="template_long" selected></option>
-									<option value="medium" data-i18n="template_medium"></option>
-									<option value="basic" data-i18n="template_basic"></option>
-									<option value="short" data-i18n="template_short"></option>
-									<option value="pin" data-i18n="template_pin"></option>
-									<option value="name" data-i18n="template_name"></option>
-									<option value="phrase" data-i18n="template_phrase"></option>
-								</select>
-								<span class="help-block" data-i18n="opt_template_desc"></span>
-							</div>
+							<select class="form-control input-sm" name="template" id="template" required>
+								<option value="maximum" data-i18n="template_maximum"></option>
+								<option value="long" data-i18n="template_long" selected></option>
+								<option value="medium" data-i18n="template_medium"></option>
+								<option value="basic" data-i18n="template_basic"></option>
+								<option value="short" data-i18n="template_short"></option>
+								<option value="pin" data-i18n="template_pin"></option>
+								<option value="name" data-i18n="template_name"></option>
+								<option value="phrase" data-i18n="template_phrase"></option>
+							</select>
 						</div>
 
 						<div class="checkbox">
@@ -93,27 +80,25 @@
 
 						<div class="form-group hidden">
 							<label class="control-label" for="password" data-i18n="password"></label>
-							<div>
-								<textarea class="form-control" name="password" id="password" readonly></textarea>
-							</div>
+							<textarea class="form-control input-sm" name="password" id="password" readonly></textarea>
 						</div>
 
-						<div class="form-group">
-							<div class="col-sm-offset-2 col-sm-10">
-								<button type="submit" class="btn btn-default" data-i18n="button_generate"></button>
-								<button class="btn btn-default" data-i18n="button_accept" style="display: none;"></button>
-								<img src="res/loading.gif" style="display:none">
-							</div>
+						<div id="submit">
+							<button type="submit" class="btn btn-default" data-i18n="button_generate"></button>
+							<button class="btn btn-default hidden" data-i18n="button_accept"></button>
+							<img src="images/loading.gif" class="hidden">
 						</div>
 					</form>
 
 				</div><!-- /content -->
 
-				<div class="container-fluid">
-					<a href="#" id="settings" data-i18n="button_settings"></a>
-				</div>
-
 			</div><!-- /row -->
+
+			<div class="row">
+				<ul class="nav">
+					<li><a href="#" id="settings" data-i18n="button_settings"></a></li>
+				</ul>
+			</div>
 
 		</div><!-- /container-fluid -->
 
