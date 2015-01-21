@@ -3,6 +3,7 @@ temp
 .tmp
 dist
 app/bower_components
+app/fonts
 app/styles/*.css
 app/styles/*.map
 test/bower_components
