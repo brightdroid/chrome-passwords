@@ -1,10 +1,13 @@
+"use strict";
+
+
 /**
  * password field selection
  */
 function toggleMPW(e)
 {
-	elm = e.target;
-	val = elm.getAttribute("data-mpw");
+	var elm = e.target;
+	var val = elm.getAttribute("data-mpw");
 
 	// disable
 	if (val && val == "true")
@@ -30,7 +33,7 @@ function toggleMPW(e)
  * add event handler
  */
 var fields = document.querySelectorAll("input[type=password]");
-for (i = 0; i < fields.length; i++)
+for (var i = 0; i < fields.length; i++)
 {
 	fields[i].addEventListener("dblclick", toggleMPW);
 }
@@ -50,9 +53,9 @@ chrome.runtime.onConnect.addListener(function(port)
 			fields = document.querySelectorAll("input[type=password][data-mpw=true]");
 
 			// no selected fields found, find all
-			if (fields.length == 0)
+			if (fields.length === 0)
 			{
-				fields = document.querySelectorAll("input[type=password]")
+				fields = document.querySelectorAll("input[type=password]");
 			}
 
 			// update values

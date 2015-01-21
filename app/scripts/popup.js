@@ -1,3 +1,33 @@
+"use strict";
+
+
+/**
+ * function to send new password to current tab
+ */
+function setPassword(pass)
+{
+	chrome.tabs.query(
+		{
+			active: true,
+			currentWindow: true
+		},
+		function(tabs)
+		{
+			var contentPort = chrome.tabs.connect(tabs[0].id, {name: "content"});
+
+			contentPort.postMessage({
+				from: "popup",
+				action: "setPassword",
+				password: pass
+			});
+
+			window.close();
+		}
+	);
+}
+
+
+
 /**
  * extension messaging
  */
@@ -33,33 +63,6 @@ popupPort.onMessage.addListener(function(msg)
 
 
 /**
- * function to send new password to current tab
- */
-function setPassword(pass)
-{
-	chrome.tabs.query(
-		{
-			active: true,
-			currentWindow: true
-		},
-		function(tabs)
-		{
-			var contentPort = chrome.tabs.connect(tabs[0].id, {name: "content"});
-
-			contentPort.postMessage({
-				from: "popup",
-				action: "setPassword",
-				password: pass
-			});
-
-			window.close();
-		}
-	);
-}
-
-
-
-/**
  * popup loaded...
  */
 window.addEventListener("load", function()
@@ -69,11 +72,11 @@ window.addEventListener("load", function()
 	 */
 	chrome.storage.sync.get("opt:username", function(prefs)
 	{
-		if (prefs["opt:username"] == undefined || prefs["opt:username"].length < 1)
+		if (prefs["opt:username"] === undefined || prefs["opt:username"].length < 1)
 		{
 			chrome.tabs.create(
 				{
-					'url': chrome.extension.getURL('options.html?error=username')
+					"url": chrome.extension.getURL("options.html?error=username")
 				}
 			);
 		}
@@ -91,7 +94,7 @@ window.addEventListener("load", function()
 	{
 		chrome.tabs.create(
 			{
-				'url': chrome.extension.getURL('options.html')
+				"url": chrome.extension.getURL("options.html")
 			}
 		);
 	});
@@ -122,7 +125,7 @@ window.addEventListener("load", function()
 		document.querySelector("#submit img").style.display = "";
 
 		// request password
-		request = {
+		var request = {
 			from: "popup",
 			action: "generate",
 			master: document.querySelector("input[name=master]").value,
@@ -141,35 +144,35 @@ window.addEventListener("load", function()
 	chrome.tabs.executeScript(
 		null,
 		{
-			code: 'document.location.host'
+			code: "document.location.host"
 		},
 		function(result)
 		{
-			options = [
+			var options = [
 				"opt:topdomain",
 				"opt:template"
 			];
-			prefs = {};
-			domain = result[0];
+			var prefs = {};
+			var domain = result[0];
 			chrome.storage.sync.get(options, function(p)
 			{
 				prefs = p;
 
 				// prefill domain
-				if (prefs['opt:topdomain'])
+				if (prefs["opt:topdomain"])
 				{
-					host = domain.split('.');
+					var host = domain.split(".");
 					if (host.length > 2)
 					{
 						domain = host[host.length-2] + "." + host[host.length-1];
 					}
 				}
-				document.querySelector('#domain').value = domain;
+				document.querySelector("#domain").value = domain;
 
 				// select template
-				if (prefs['opt:template'])
+				if (prefs["opt:template"])
 				{
-					document.querySelector('#template').value = prefs['opt:template'];
+					document.querySelector("#template").value = prefs["opt:template"];
 				}
 			});
 		}

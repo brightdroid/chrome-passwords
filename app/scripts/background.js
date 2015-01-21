@@ -1,7 +1,11 @@
+"use strict";
+/* global MPW */
+
+
 /**
  * use declarativeContent to show PageAction icon
  */
-var match_rules = {
+var matchRules = {
 	conditions: [
 		new chrome.declarativeContent.PageStateMatcher({
 			css: ["input[type=password]"]
@@ -12,11 +16,11 @@ var match_rules = {
 	]
 };
 
-chrome.runtime.onInstalled.addListener(function(details)
+chrome.runtime.onInstalled.addListener(function()
 {
 	chrome.declarativeContent.onPageChanged.removeRules(undefined, function()
 	{
-		chrome.declarativeContent.onPageChanged.addRules([match_rules]);
+		chrome.declarativeContent.onPageChanged.addRules([matchRules]);
 	});
 });
 
@@ -55,7 +59,7 @@ function onMessagePopup(msg, port)
 					});
 
 				},
-				function (err)
+				function ()
 				{
 					throw new Error("Password could not be generated, please open a issue at https://github.com/brightdroid/chrome-passwords");
 				}

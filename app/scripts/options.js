@@ -1,3 +1,7 @@
+"use strict";
+/* global addAlert */
+
+
 $(function()
 {
 	/**
@@ -7,15 +11,15 @@ $(function()
 	$("#username").focus();
 
 	// submit button
-	$('button[type=submit]').click(function(e)
+	$("button[type=submit]").click(function(e)
 	{
 		e.preventDefault();
 
-		$('form').submit();
+		$("form").submit();
 	});
 
 	// form submit
-	$('form').submit(function(e)
+	$("form").submit(function(e)
 	{
 		e.preventDefault();
 
@@ -26,11 +30,11 @@ $(function()
 			return false;
 		}
 
-		$('button[type=submit]').focus();
+		$("button[type=submit]").focus();
 
 		// save...
-		values = {}
-		$('[data-option]').each(function()
+		var values = {};
+		$("[data-option]").each(function()
 		{
 			values[$(this).data("option")] = $(this).val();
 		});
@@ -42,7 +46,7 @@ $(function()
 	// input validation
 	$(":input").not("buttton").change(function()
 	{
-		formGroup = $(this).closest(".form-group");
+		var formGroup = $(this).closest(".form-group");
 
 		if ($(this).is(":invalid"))
 		{
@@ -58,8 +62,8 @@ $(function()
 	/**
 	 * find options
 	 */
-	options = [];
-	$('[data-option]').each(function(i)
+	var options = [];
+	$("[data-option]").each(function(i)
 	{
 		options[i] = $(this).data("option");
 	});
