@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Chrome Passwords",
-    "version": "2.5",
+    "version": "2.0",
     "default_locale": "en",
     "minimum_chrome_version": "38",
     "permissions": [
@@ -39,7 +39,7 @@
         }
     ],
     "web_accessible_resources": [
-        "res/*.png"
+        "images/*.png"
     ],
     "options_page": "options.html",
     "page_action": {
