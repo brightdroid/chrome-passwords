@@ -211,11 +211,17 @@ module.exports = function (grunt) {
 			}
 		},
 
-		//uglify: {
-		//	options: {
-		//		sourceMap: true
-		//	}
-		//}
+		uglify: {
+//			options: {
+//				sourceMap: true
+//			},
+			dist: {
+				files: {
+					"<%= config.dist %>/scripts/background.js": ["<%= config.app %>/scripts/background.js"],
+					"<%= config.dist %>/scripts/content.js": ["<%= config.app %>/scripts/content.js"]
+				}
+			}
+		},
 
 		// Copies remaining files to places other tasks can use
 		copy: {
@@ -226,11 +232,11 @@ module.exports = function (grunt) {
 					cwd: "<%= config.app %>",
 					dest: "<%= config.dist %>",
 					src: [
-						"*.{ico,png,txt}",
-						"images/{,*/}*.{webp,gif}",
+						"*.*",
+						"images/{,*/}*.*",
 						"fonts/{,*/}*.*",
-						"{,*/}*.html",
 						"_locales/{,*/}*.json",
+						"scripts/lib/{,*/}*.js"
 					]
 				}]
 			},
@@ -269,12 +275,11 @@ module.exports = function (grunt) {
 		chromeManifest: {
 			dist: {
 				options: {
-					buildnumber: true,
 					background: {
 						target: "scripts/background.js",
 						exclude: [
 							"scripts/chromereload.js",
-							"scripts/debug.js",
+							"scripts/lib/"
 						]
 					}
 				},
@@ -315,6 +320,28 @@ module.exports = function (grunt) {
 			}
 		},
 
+		 modify_json: {
+			options: {
+				add: true,
+				fields: {
+					background: {
+						scripts: [
+							"scripts/background.js",
+							"scripts/lib/traceur-runtime.js",
+							"scripts/lib/setImmediate-polyfill.js",
+							"scripts/lib/hmac-sha256.js",
+							"scripts/lib/lib-typedarrays-min.js",
+							"scripts/lib/scrypt-asm.js",
+							"scripts/lib/scrypt.js",
+							"scripts/lib/mpw.js"
+						]
+					}
+				}
+			},
+			dist: {
+				src: [ 'dist/manifest.json' ]
+			}
+		},
 	});
 
 
@@ -339,16 +366,17 @@ module.exports = function (grunt) {
 	]);
 
 	grunt.registerTask("build", [
-		//"chromeManifest:dist",
 		"clean",
 		"useminPrepare",
+		//"chromeManifest",
 		"concurrent:dist",
-		"concat:generated",
-		"cssmin:generated",
-		"uglify:generated",
+		"concat",
+		"cssmin",
+		"uglify",
 		"copy",
 		"usemin",
 		"processhtml:dist",
+		"modify_json",
 //		"compress"
 	]);
 
