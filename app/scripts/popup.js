@@ -84,7 +84,20 @@ $(function()
 	 * add events && init
 	 */
 	// focus password field
-	$("input[name=master]").focus();
+	$("input:first").focus();
+
+	// change event
+	$(":input[required]").change(function(e)
+	{
+		if ($(this).val().length < 1)
+		{
+			$(this).parent().addClass("has-error");
+		}
+		else
+		{
+			$(this).parent().removeClass("has-error");
+		}
+	});
 
 	// settings link
 	$("#settings").click(function(e)
