@@ -114,7 +114,7 @@ $(function()
 	{
 		e.preventDefault();
 
-		setPassword($("textarea[name=password]").val());
+		setPassword($("#password").val());
 	});
 
 	// textarea
@@ -158,7 +158,7 @@ $(function()
 		function(result)
 		{
 			var options = [
-				"opt:topdomain",
+				"opt:domainpart",
 				"opt:template"
 			];
 			var domain = result[0];
@@ -168,7 +168,7 @@ $(function()
 				var prefs = p;
 
 				// prefill domain
-				if (prefs["opt:topdomain"])
+				if (prefs["opt:domainpart"] == "first")
 				{
 					var host = domain.split(".");
 					if (host.length > 2)
