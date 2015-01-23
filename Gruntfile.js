@@ -202,6 +202,21 @@ module.exports = function (grunt) {
 
 		// Copies remaining files to places other tasks can use
 		copy: {
+			server: {
+				files: [{
+					expand: true,
+					dot: true,
+					cwd: "<%= config.app %>/bower_components/font-awesome/fonts/",
+					dest: "<%= config.app %>/fonts/font-awesome",
+					src: ["*"]
+				}, {
+					expand: true,
+					dot: true,
+					cwd: "<%= config.app %>/bower_components/bootstrap/dist/fonts/",
+					dest: "<%= config.app %>/fonts/glyphicons",
+					src: ["*"]
+				}]
+			},
 			dist: {
 				files: [{
 					expand: true,
@@ -217,21 +232,6 @@ module.exports = function (grunt) {
 					]
 				}]
 			},
-			server: {
-				files: [{
-					expand: true,
-					dot: true,
-					cwd: "<%= config.app %>/bower_components/font-awesome/fonts/",
-					dest: "<%= config.app %>/fonts/font-awesome",
-					src: ["*"]
-				}, {
-					expand: true,
-					dot: true,
-					cwd: "<%= config.app %>/bower_components/bootstrap/dist/fonts/",
-					dest: "<%= config.app %>/fonts/glyphicons",
-					src: ["*"]
-				}]
-			}
 		},
 
 		// Run some tasks in parallel to speed up build process
