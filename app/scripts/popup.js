@@ -168,7 +168,7 @@ $(function()
 				var prefs = p;
 
 				// prefill domain
-				if (prefs["opt:domainpart"] == "first")
+				if (prefs["opt:domainpart"] == "first" && !domain.match(/^\d+\.\d+\.\d+\.\d+$/))
 				{
 					var host = domain.split(".");
 					if (host.length > 2)
