@@ -35,6 +35,8 @@ var popupPort = chrome.extension.connect({name: "popup"});
 
 popupPort.onMessage.addListener(function(msg)
 {
+	console.log("popupPort", msg);
+
 	/**
 	 * received password result
 	 */
@@ -97,6 +99,17 @@ $(function()
 		{
 			$(this).parent().removeClass("has-error");
 		}
+	});
+
+	// domain change event
+	$("#domain").blur(function()
+	{
+		console.log("getDomainConfig", $(this).val());
+
+		popupPort.postMessage({
+			"action": "getDomainConfig",
+			"domain": $(this).val()
+		});
 	});
 
 	// settings link
