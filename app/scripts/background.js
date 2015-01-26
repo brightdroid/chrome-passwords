@@ -15,45 +15,34 @@ function ChromePasswords()
 	// history extension
 	this.historyExtensionId = "cmeaokcaickhjmmbbkkncmbmjmjnoigj";
 
-	// TODO load user preferences from storage.sync
-	var options = [
-		"opt:domainpart",
-		"opt:template"
-	];
 	var sup = this;
 
-	chrome.storage.sync.get(options, function(prefs)
+	this.loadUserPrefs = function()
 	{
-		for (var p in prefs)
-		{
-			sup.userPrefs[p.substr(4)] = prefs[p];
-		}
+		// load user preferences from storage.sync
+		var options = [
+			"opt:domainpart",
+			"opt:template"
+		];
 
-		console.log(sup.userPrefs);
-		/*this.userPrefs
-		// prefill domain
-		if (prefs["opt:domainpart"] == "first" && !domain.match(/^\d+\.\d+\.\d+\.\d+$/))
+		chrome.storage.sync.get(options, function(prefs)
 		{
-			var host = domain.split(".");
-			if (host.length > 2)
+			for (var p in prefs)
 			{
-				domain = host[host.length-2] + "." + host[host.length-1];
+				sup.userPrefs[p.substr(4)] = prefs[p];
 			}
-		}
-		$("#domain").val(domain);
 
-		// select template
-		if (prefs["opt:template"])
-		{
-			$("#template").val(prefs["opt:template"]);
-		}*/
-	});
+			console.log(sup.userPrefs);
+		});
+	};
+
+	this.loadUserPrefs();
 }
 
 /**
  * get (saved) domain params
  */
-ChromePasswords.prototype.getDomainParams = function(domain, callback)
+ChromePasswords.prototype.getDomain = function(domain, callback)
 {
 	// only first part of domain?
 	if (this.userPrefs.domainpart == "first" && !domain.match(/^\d+\.\d+\.\d+\.\d+$/))
@@ -116,6 +105,16 @@ chrome.runtime.onInstalled.addListener(function()
 
 
 /**
+ * setting change listener
+ */
+chrome.storage.onChanged.addListener(function(changes, namespace)
+{
+	CP.loadUserPrefs();
+});
+
+
+
+/**
  * popup messages
  */
 function onMessagePopup(msg, port)
@@ -160,9 +159,9 @@ function onMessagePopup(msg, port)
 	/**
 	 * get domain config
 	 */
-	else if (msg.action == "getDomainConfig")
+	else if (msg.action == "getDomain")
 	{
-		CP.getDomainParams(msg.domain, function(response)
+		CP.getDomain(msg.domain, function(response)
 		{
 			port.postMessage(response);
 		});
