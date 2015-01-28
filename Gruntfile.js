@@ -317,6 +317,12 @@ module.exports = function (grunt) {
 				src: [ 'dist/manifest.json' ]
 			}
 		},
+
+		removelogging: {
+			dist: {
+				src: "dist/scripts/*.js"
+			}
+		}
 	});
 
 
@@ -352,6 +358,7 @@ module.exports = function (grunt) {
 		"usemin",
 		"processhtml:dist",
 		"modify_json",
+		"removelogging",
 //		"compress"
 	]);
 

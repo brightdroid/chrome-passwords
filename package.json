@@ -20,6 +20,7 @@
     "grunt-mocha": "latest",
     "grunt-modify-json": "latest",
     "grunt-processhtml": "latest",
+    "grunt-remove-logging": "latest",
     "grunt-usemin": "latest",
     "jshint-stylish": "latest",
     "load-grunt-tasks": "latest",
