@@ -2,8 +2,37 @@
 /* global addAlert */
 
 
+/**
+ * extension messaging
+ */
+var bgPort = chrome.runtime.connect({name: "background"});
+
+bgPort.onMessage.addListener(function(msg)
+{
+	console.log("msg", msg);
+	/**
+	 * prefill form with user prefs
+	 */
+	if (msg.called == "getPrefs")
+	{
+		$.each(msg.data, function(k, v)
+		{
+			$("[data-option='" + k + "']").val(v);
+		});
+	}
+});
+
+
+
+
 $(function()
 {
+	/**
+	 * load current settings
+	 */
+	bgPort.postMessage({"action": "getPrefs"});
+
+
 	/**
 	 * add events
 	 */
@@ -38,7 +67,10 @@ $(function()
 		{
 			values[$(this).data("option")] = $(this).val();
 		});
-		chrome.storage.sync.set(values);
+		bgPort.postMessage({
+			"action": "savePrefs",
+			"data": values
+		});
 
 		addAlert("success", chrome.i18n.getMessage("alert_form_save"));
 	});
@@ -57,29 +89,6 @@ $(function()
 			formGroup.removeClass("has-error");
 		}
 	});
-
-
-	/**
-	 * find options
-	 */
-	var options = [];
-	$("[data-option]").each(function(i)
-	{
-		options[i] = $(this).data("option");
-	});
-
-
-    /**
-	 * load current settings
-	 */
-    chrome.storage.sync.get(options, function(prefs)
-    {
-		$.each(prefs, function(k, v)
-		{
-			$("[data-option='" + k + "']").val(v);
-		});
-    });
-
 });
 
 

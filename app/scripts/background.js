@@ -6,43 +6,54 @@
  */
 function ChromePasswords()
 {
+	/**
+	 * config
+	 */
 	// default user preferences
 	this.userPrefs = {
+		"username": "",
 		"domainpart": "first",
 		"template": "maximum"
 	};
 
+	// user defined templates
+	this.templates = {};
+
 	// history extension
 	this.historyExtensionId = "cmeaokcaickhjmmbbkkncmbmjmjnoigj";
 
+
+	/**
+	 * inital user prefs loading
+	 */
+	var options = [
+		"prefs",
+		"templates"
+	];
+
 	var sup = this;
-
-	this.loadUserPrefs = function()
+	chrome.storage.sync.get(options, function(prefs)
 	{
-		// load user preferences from storage.sync
-		var options = [
-			"opt:domainpart",
-			"opt:template"
-		];
-
-		chrome.storage.sync.get(options, function(prefs)
+		for (var k in prefs)
 		{
-			for (var p in prefs)
+			switch (k)
 			{
-				sup.userPrefs[p.substr(4)] = prefs[p];
+				case "prefs":
+					sup.userPrefs = prefs[k];
+					break;
+
+				case "templates":
+					sup.templates = prefs[k];
+					break;
 			}
-
-			console.log(sup.userPrefs);
-		});
-	};
-
-	this.loadUserPrefs();
+		}
+	});
 }
 
 /**
- * get (saved) domain params
+ * get domain prefs
  */
-ChromePasswords.prototype.getDomain = function(domain, callback)
+ChromePasswords.prototype.getDomainPrefs = function(domain, callback)
 {
 	// only first part of domain?
 	if (this.userPrefs.domainpart == "first" && !domain.match(/^\d+\.\d+\.\d+\.\d+$/))
@@ -55,6 +66,7 @@ ChromePasswords.prototype.getDomain = function(domain, callback)
 	}
 
 	// ask history storage for settings
+	var sup = this;
 	chrome.runtime.sendMessage(
 		this.historyExtensionId,
 		{
@@ -68,12 +80,43 @@ ChromePasswords.prototype.getDomain = function(domain, callback)
 				response = {};
 			}
 
+			if (response.template === undefined)
+			{
+				response.template = sup.userPrefs.template;
+			}
+
 			// add domain to response
 			response.domain = domain;
-
+			console.log(response);
 			callback(response);
 		}
 	);
+};
+
+
+/**
+ * save in history storage
+ */
+ChromePasswords.prototype.saveDomainPrefs = function(domain, counter, template)
+{
+	chrome.runtime.sendMessage(
+		this.historyExtensionId,
+		{
+			action: "setConfig",
+			domain: domain,
+			counter: counter,
+			template: template
+		}
+	);
+};
+
+
+/**
+ * get userPrefs
+ */
+ChromePasswords.prototype.getUserPrefs = function()
+{
+	return this.userPrefs;
 };
 
 var CP = new ChromePasswords();
@@ -81,23 +124,23 @@ var CP = new ChromePasswords();
 
 
 /**
- * use declarativeContent to show PageAction icon
+ * extension load event
  */
-var matchRules = {
-	conditions: [
-		new chrome.declarativeContent.PageStateMatcher({
-			css: ["input[type=password]"]
-		})
-	],
-	actions: [
-		new chrome.declarativeContent.ShowPageAction()
-	]
-};
-
 chrome.runtime.onInstalled.addListener(function()
 {
+	// use declarativeContent to show PageAction icon
 	chrome.declarativeContent.onPageChanged.removeRules(undefined, function()
 	{
+		var matchRules = {
+			conditions: [
+				new chrome.declarativeContent.PageStateMatcher({
+					css: ["input[type=password]"]
+				})
+			],
+			actions: [
+				new chrome.declarativeContent.ShowPageAction()
+			]
+		};
 		chrome.declarativeContent.onPageChanged.addRules([matchRules]);
 	});
 });
@@ -105,68 +148,24 @@ chrome.runtime.onInstalled.addListener(function()
 
 
 /**
- * setting change listener
+ * storage change listener
  */
 chrome.storage.onChanged.addListener(function(changes, namespace)
 {
-	CP.loadUserPrefs();
-});
-
-
-
-/**
- * popup messages
- */
-function onMessagePopup(msg, port)
-{
-	/**
-	 * generate password
-	 */
-	if (msg.action == "generate")
+	for (var key in changes)
 	{
-		// correct params?
-		if (!msg.master || !msg.domain || !msg.counter || !msg.template)
+		switch (key)
 		{
-			throw new Error("Error calling generate function, wrong params!");
+			case "prefs":
+				CP.userPrefs = changes[key].newValue;
+				break;
+
+			case "templates":
+				CP.templates = changes[key].newValue;
+				break;
 		}
-
-		// get username from prefs, then generate password
-		chrome.storage.sync.get("opt:username", function(prefs)
-		{
-			var mpw = new MPW(prefs["opt:username"], msg.master);
-
-			var hasher = mpw.generatePassword(msg.domain, msg.counter, msg.template);
-
-			hasher.then(
-				function (pass)
-				{
-					port.postMessage({
-						from: "background",
-						action: "passwordResult",
-						password: pass
-					});
-
-				},
-				function ()
-				{
-					throw new Error("Password could not be generated, please open a issue at https://github.com/brightdroid/chrome-passwords");
-				}
-			);
-		});
-
-
 	}
-	/**
-	 * get domain config
-	 */
-	else if (msg.action == "getDomain")
-	{
-		CP.getDomain(msg.domain, function(response)
-		{
-			port.postMessage(response);
-		});
-	}
-}
+});
 
 
 
@@ -175,11 +174,100 @@ function onMessagePopup(msg, port)
  */
 chrome.runtime.onConnect.addListener(function(port)
 {
-	console.log("connect", port);
-
-	// popup channel
-	if (port.name == "popup")
+	if (port.name != "background")
 	{
-		port.onMessage.addListener(onMessagePopup);
+		return;
 	}
+
+	port.onMessage.addListener(function(msg)
+	{
+		console.log("msg", msg);
+		/**
+		* get domain config
+		*/
+		if (msg.action == "getDomainPrefs" && msg.domain)
+		{
+			CP.getDomainPrefs(msg.domain, function(response)
+			{
+				port.postMessage({
+					called: msg.action,
+					data: response
+				});
+			});
+
+
+		}
+		/**
+		* get userPrefs
+		*/
+		else if (msg.action == "getPrefs")
+		{
+			port.postMessage({
+				called: msg.action,
+				data: CP.userPrefs
+			});
+
+
+		}
+		/**
+		 * save prefs
+		 */
+		else if (msg.action == "savePrefs" && msg.data)
+		{
+			chrome.storage.sync.set({
+				"prefs": msg.data
+			});
+
+
+		}
+		/**
+		* get templates
+		*/
+		else if (msg.action == "getTemplates")
+		{
+			port.postMessage({
+				called: msg.action,
+				data: CP.templates
+			});
+
+
+		}
+		/**
+		* generate password
+		*/
+		else if (msg.action == "generatePassword")
+		{
+			// correct params?
+			if (!msg.master || !msg.domain || !msg.counter || !msg.template)
+			{
+				throw new Error("Error calling generate function, wrong params!");
+			}
+
+			// generate master key
+			var mpw = new MPW(CP.userPrefs.username, msg.master);
+
+			// generate password
+			var hasher = mpw.generatePassword(msg.domain, msg.counter, msg.template);
+			hasher.then(
+				function (pass)
+				{
+					port.postMessage({
+						called: "generatePassword",
+						data: {
+							password: pass
+						}
+					});
+
+				},
+				function ()
+				{
+					throw new Error("Password could not be generated, please open a issue at https://github.com/brightdroid/chrome-passwords");
+				}
+			);
+
+			CP.saveDomainPrefs(msg.domain, msg.counter, msg.template);
+		}
+
+	});
 });
+

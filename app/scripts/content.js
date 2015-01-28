@@ -47,7 +47,9 @@ chrome.runtime.onConnect.addListener(function(port)
 {
 	port.onMessage.addListener(function(msg)
 	{
-		if (msg.from == "popup" && msg.action === "setPassword")
+		console.log(msg);
+		
+		if (msg.action === "setPassword")
 		{
 			// are there selected fields?
 			fields = document.querySelectorAll("input[type=password][data-mpw=true]");
