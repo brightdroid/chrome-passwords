@@ -52,6 +52,8 @@ module.exports = function (grunt) {
 				},
 				files: [
 					"<%= config.app %>/manifest.json",
+					"<%= config.app %>/scripts/background.js",
+					"<%= config.app %>/scripts/lib/*.js",
 					"<%= config.app %>/_locales/{,*/}*.json"
 				]
 			}
