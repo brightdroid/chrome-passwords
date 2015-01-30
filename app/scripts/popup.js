@@ -130,7 +130,7 @@ $(function()
 	});
 
 	// domain change event
-	$("#domain").blur(function()
+	$("#domain").change(function()
 	{
 		bgPort.postMessage({
 			action: "getDomainPrefs",
