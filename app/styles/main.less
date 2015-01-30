@@ -66,7 +66,14 @@
 			.make-xs-column(8);
 		}
 	}
+
+	.modal-body .form-group
+	{
+		margin-left: @padding-large-horizontal;
+		margin-right: @padding-large-horizontal;
+	}
 }
+
 
 
 /**
@@ -125,19 +132,19 @@
 /**
  * domains
  */
-.table-domains
+#table-domains
 {
 	.table;
 	.table-striped;
 }
-.table-domains tbody tr td
+#table-domains tbody tr td
 {
 	vertical-align: middle;
 }
-.table-domains td:nth-child(2),
-.table-domains th:nth-child(2),
-.table-domains td:nth-child(4),
-.table-domains th:nth-child(4)
+#table-domains td:nth-child(2),
+#table-domains th:nth-child(2),
+#table-domains td:nth-child(4),
+#table-domains th:nth-child(4)
 {
 	text-align: center;
 }

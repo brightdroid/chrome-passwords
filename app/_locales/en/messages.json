@@ -20,6 +20,15 @@
 	"password": {
 		"message": "Passwort"
 	},
+	"edit_domain": {
+		"message": "Edit Domain"
+	},
+	"delete_domain": {
+		"message": "Delete Domain"
+	},
+	"delete_domain_desc": {
+		"message": "Really delete domain settings?"
+	},
 
 	"opt_tabsettings": {
 		"message": "Settings"
@@ -90,6 +99,12 @@
 	},
 	"button_save": {
 		"message": "Save"
+	},
+	"button_delete": {
+		"message": "Delete"
+	},
+	"button_cancel": {
+		"message": "Cancel"
 	},
 	"alert_input_invalid": {
 		"message": "Invalid input, really close?"

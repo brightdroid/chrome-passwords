@@ -50,6 +50,16 @@ function ChromePasswords()
 	});
 }
 
+
+/**
+ * get userPrefs
+ */
+ChromePasswords.prototype.getUserPrefs = function()
+{
+	return this.userPrefs;
+};
+
+
 /**
  * get domain prefs
  */
@@ -67,8 +77,7 @@ ChromePasswords.prototype.getDomainPrefs = function(domain, callback)
 
 	// ask history storage for settings
 	var sup = this;
-	chrome.runtime.sendMessage(
-		this.historyExtensionId,
+	this.queryHistory(
 		{
 			"action": "getConfig",
 			"domain": domain
@@ -80,6 +89,11 @@ ChromePasswords.prototype.getDomainPrefs = function(domain, callback)
 				response = {};
 			}
 
+			if (response.counter === undefined)
+			{
+				response.counter = 1;
+			}
+
 			if (response.template === undefined)
 			{
 				response.template = sup.userPrefs.template;
@@ -87,7 +101,9 @@ ChromePasswords.prototype.getDomainPrefs = function(domain, callback)
 
 			// add domain to response
 			response.domain = domain;
+
 			console.log(response);
+
 			callback(response);
 		}
 	);
@@ -95,28 +111,15 @@ ChromePasswords.prototype.getDomainPrefs = function(domain, callback)
 
 
 /**
- * save in history storage
+ * query history extension
  */
-ChromePasswords.prototype.saveDomainPrefs = function(domain, counter, template)
+ChromePasswords.prototype.queryHistory = function(request, callback)
 {
 	chrome.runtime.sendMessage(
 		this.historyExtensionId,
-		{
-			action: "setConfig",
-			domain: domain,
-			counter: counter,
-			template: template
-		}
+		request,
+		callback
 	);
-};
-
-
-/**
- * get userPrefs
- */
-ChromePasswords.prototype.getUserPrefs = function()
-{
-	return this.userPrefs;
 };
 
 var CP = new ChromePasswords();
@@ -233,6 +236,26 @@ chrome.runtime.onConnect.addListener(function(port)
 
 		}
 		/**
+		* get all domains (history extension)
+		*/
+		else if (msg.action == "getAllDomains")
+		{
+			CP.queryHistory(
+				{
+					action: "getAll"
+				},
+				function(response)
+				{
+					port.postMessage({
+						called: msg.action,
+						data: response
+					});
+				}
+			);
+
+
+		}
+		/**
 		* generate password
 		*/
 		else if (msg.action == "generatePassword")
@@ -265,7 +288,38 @@ chrome.runtime.onConnect.addListener(function(port)
 				}
 			);
 
-			CP.saveDomainPrefs(msg.domain, msg.counter, msg.template);
+			CP.queryHistory({
+				action: "setConfig",
+				domain: msg.domain,
+				counter: msg.counter,
+				template: msg.template
+			});
+
+
+		}
+		/**
+		* save domain prefs (history extension)
+		*/
+		else if (msg.action == "saveDomainPrefs")
+		{
+			CP.queryHistory({
+				action: "setConfig",
+				domain: msg.domain,
+				counter: msg.counter,
+				template: msg.template
+			});
+
+
+		}
+		/**
+		* delete domain prefs (history extension)
+		*/
+		else if (msg.action == "deleteDomainPrefs")
+		{
+			CP.queryHistory({
+				action: "deleteConfig",
+				domain: msg.domain
+			});
 		}
 
 	});
