@@ -40,12 +40,24 @@ bgPort.onMessage.addListener(function(msg)
 {
 	console.log("msg", msg);
 	/**
-	 * get all Domains from history storge
+	 * update table with all Domains from history extension
 	 */
-	if (msg.called == "getAllDomains" && msg.data)
+	if (msg.called == "getAllDomains")
 	{
+		// history extension not installed
+		if (msg.data === undefined)
+		{
+			$(".jumbotron").removeClass("hidden");
+			return;
+		}
+
+		// show heading and table
+		$("#table-domains, .sub-header").removeClass("hidden");
+
+		// empty table
 		$("#table-domains tbody").html("");
 
+		// add entries
 		$.each(msg.data, function(k, v)
 		{
 			var tr = $("<tr>");
@@ -84,7 +96,6 @@ bgPort.onMessage.addListener(function(msg)
 					})
 				)
 			);
-
 	}
 });
 
@@ -129,4 +140,5 @@ $(function()
 
 		bgPort.postMessage({"action": "getAllDomains"});
 	});
+
 });

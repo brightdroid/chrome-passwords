@@ -106,15 +106,21 @@
 					<ul class="nav nav-sidebar">
 						<li><a href="options.html" data-i18n="opt_tabsettings"></a></li>
 						<li class="active"><a href="domains.html" data-i18n="opt_tabdomains"></a></li>
-						<li><a href="templates.html" data-i18n="opt_tabtemplates"></a></li>
+						<!--<li><a href="templates.html" data-i18n="opt_tabtemplates"></a></li>-->
 						<li class="about"><a href="about.html" data-i18n="opt_tababout"></a></li>
 					</ul>
 				</div>
 
 				<div class="content">
-					<h2 class="sub-header" data-i18n="opt_tabdomains"></h2>
+					<h2 class="sub-header hidden" data-i18n="opt_tabdomains"></h2>
 
-					<table id="table-domains">
+					<div class="jumbotron buyinfo hidden">
+						<h2 data-i18n="history_extension"></h2>
+						<p data-i18n="history_extension_desc"></p>
+						<p><a class="btn btn-primary btn-lg" href="https://chrome.google.com/webstore/detail/cmeaokcaickhjmmbbkkncmbmjmjnoigj" data-i18n="button_install"></a></p>
+					</div>
+
+					<table class="hidden" id="table-domains">
 						<thead>
 							<tr>
 								<th data-i18n="domain"></th>

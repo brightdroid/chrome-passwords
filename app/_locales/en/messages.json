@@ -29,13 +29,27 @@
 	"delete_domain_desc": {
 		"message": "Really delete domain settings?"
 	},
+	"history_extension": {
+		"message": "Domain Extension"
+	},
+	"history_extension_desc": {
+		"message": "The domain extension automatically saves counter and template for each domain and allows to manage them."
+	},
+
 
 	"opt_tabsettings": {
 		"message": "Settings"
 	},
+	"opt_tabdomains": {
+		"message": "Domains"
+	},
+	"opt_tabtemplates": {
+		"message": "Templates"
+	},
 	"opt_tababout": {
 		"message": "About"
 	},
+
 
 	"opt_username": {
 		"message": "Username"
@@ -43,7 +57,6 @@
 	"opt_username_desc": {
 		"message": "This username should never change because it is part of the master password!"
 	},
-
 	"opt_domainpart": {
 		"message": "Domain Security"
 	},
@@ -57,12 +70,13 @@
 		"message": "entire domain"
 	},
 
+
 	"opt_template": {
 		"message": "Default Template"
 	},
-	"opt_template_desc": {
-		"message": "In addition, <a href=\"templates.html\"> own templates can be created."
-	},
+	//"opt_template_desc": {
+	//	"message": "In addition, <a href=\"templates.html\"> own templates can be created."
+	//},
 	"template_maximum": {
 		"message": "Maximum"
 	},
@@ -88,6 +102,7 @@
 		"message": "Phrase"
 	},
 
+
 	"button_settings": {
 		"message": "Settings"
 	},
@@ -106,6 +121,9 @@
 	"button_cancel": {
 		"message": "Cancel"
 	},
+	"button_install": {
+		"message": "Install"
+	},
 	"alert_input_invalid": {
 		"message": "Invalid input, really close?"
 	},
@@ -115,6 +133,7 @@
 	"alert_form_save": {
 		"message": "Saved!"
 	},
+
 
 	"opt_about_author": {
 		"message": "Author"

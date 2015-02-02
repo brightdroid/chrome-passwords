@@ -19,7 +19,7 @@ function toggleMPW(e)
 	// enable
 	else
 	{
-		elm.style.backgroundImage = "url(" + chrome.extension.getURL("res/icon38.png") + ")";
+		elm.style.backgroundImage = "url(" + chrome.extension.getURL("images/icon38.png") + ")";
 		elm.style.backgroundPosition = "100% 50%";
 		elm.style.backgroundRepeat = "no-repeat";
 		elm.style.backgroundSize = "contain";
@@ -48,7 +48,7 @@ chrome.runtime.onConnect.addListener(function(port)
 	port.onMessage.addListener(function(msg)
 	{
 		console.log(msg);
-		
+
 		if (msg.action === "setPassword")
 		{
 			// are there selected fields?

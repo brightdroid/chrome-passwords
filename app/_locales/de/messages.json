@@ -29,6 +29,13 @@
 	"delete_domain_desc": {
 		"message": "Die Domain Einstellungen wirklich löschen?"
 	},
+	"history_extension": {
+		"message": "Domain Erweiterung"
+	},
+	"history_extension_desc": {
+		"message": "Die Domain Erweiterung speichert automatisch Zähler und Template je Domain und ermöglicht diese zu verwalten."
+	},
+
 
 	"opt_tabsettings": {
 		"message": "Einstellungen"
@@ -43,13 +50,13 @@
 		"message": "Über"
 	},
 
+
 	"opt_username": {
 		"message": "Benutzername"
 	},
 	"opt_username_desc": {
 		"message": "Dieser Benutzername sollte sich niemals ändern, da er Teil des Master Passworts ist!"
 	},
-
 	"opt_domainpart": {
 		"message": "Domain Sicherheit"
 	},
@@ -63,12 +70,13 @@
 		"message": "gesamte Domain"
 	},
 
+
 	"opt_template": {
 		"message": "Standard Template"
 	},
-	"opt_template_desc": {
-		"message": "Zusätzlich können auch <a href=\"templates.html\">eigene Templates</a> erstellt werden."
-	},
+	//"opt_template_desc": {
+	//	"message": "Zusätzlich können auch <a href=\"templates.html\">eigene Templates</a> erstellt werden."
+	//},
 	"template_maximum": {
 		"message": "Maximum"
 	},
@@ -94,6 +102,7 @@
 		"message": "Satz"
 	},
 
+
 	"button_settings": {
 		"message": "Einstellungen"
 	},
@@ -112,6 +121,9 @@
 	"button_cancel": {
 		"message": "Abbrechen"
 	},
+	"button_install": {
+		"message": "Installieren"
+	},
 	"alert_input_invalid": {
 		"message": "Ungültige Eingaben, wirklich schließen?"
 	},
@@ -121,6 +133,7 @@
 	"alert_form_save": {
 		"message": "Gespeichert!"
 	},
+
 
 	"opt_about_author": {
 		"message": "Autor"
