@@ -1,4 +1,3 @@
-"use strict";
 /* global MPW */
 
 /**
@@ -66,7 +65,7 @@ ChromePasswords.prototype.getUserPrefs = function()
 ChromePasswords.prototype.getDomainPrefs = function(domain, callback)
 {
 	// only first part of domain?
-	if (this.userPrefs.domainpart == "first" && !domain.match(/^\d+\.\d+\.\d+\.\d+$/))
+	if (this.userPrefs.domainpart === "first" && !domain.match(/^\d+\.\d+\.\d+\.\d+$/))
 	{
 		var host = domain.split(".");
 		if (host.length > 2)
@@ -153,7 +152,7 @@ chrome.runtime.onInstalled.addListener(function()
 /**
  * storage change listener
  */
-chrome.storage.onChanged.addListener(function(changes, namespace)
+chrome.storage.onChanged.addListener(function(changes/*, namespace*/)
 {
 	for (var key in changes)
 	{
@@ -177,7 +176,7 @@ chrome.storage.onChanged.addListener(function(changes, namespace)
  */
 chrome.runtime.onConnect.addListener(function(port)
 {
-	if (port.name != "background")
+	if (port.name !== "background")
 	{
 		return;
 	}
@@ -188,7 +187,7 @@ chrome.runtime.onConnect.addListener(function(port)
 		/**
 		* get domain config
 		*/
-		if (msg.action == "getDomainPrefs" && msg.domain)
+		if (msg.action === "getDomainPrefs" && msg.domain)
 		{
 			CP.getDomainPrefs(msg.domain, function(response)
 			{
@@ -203,7 +202,7 @@ chrome.runtime.onConnect.addListener(function(port)
 		/**
 		* get userPrefs
 		*/
-		else if (msg.action == "getPrefs")
+		else if (msg.action === "getPrefs")
 		{
 			port.postMessage({
 				called: msg.action,
@@ -215,7 +214,7 @@ chrome.runtime.onConnect.addListener(function(port)
 		/**
 		 * save prefs
 		 */
-		else if (msg.action == "savePrefs" && msg.data)
+		else if (msg.action === "savePrefs" && msg.data)
 		{
 			chrome.storage.sync.set({
 				"prefs": msg.data
@@ -226,7 +225,7 @@ chrome.runtime.onConnect.addListener(function(port)
 		/**
 		* get templates
 		*/
-		else if (msg.action == "getTemplates")
+		else if (msg.action === "getTemplates")
 		{
 			port.postMessage({
 				called: msg.action,
@@ -238,7 +237,7 @@ chrome.runtime.onConnect.addListener(function(port)
 		/**
 		* get all domains (history extension)
 		*/
-		else if (msg.action == "getAllDomains")
+		else if (msg.action === "getAllDomains")
 		{
 			CP.queryHistory(
 				{
@@ -258,7 +257,7 @@ chrome.runtime.onConnect.addListener(function(port)
 		/**
 		* generate password
 		*/
-		else if (msg.action == "generatePassword")
+		else if (msg.action === "generatePassword")
 		{
 			// correct params?
 			if (!msg.master || !msg.domain || !msg.counter || !msg.template)
@@ -300,7 +299,7 @@ chrome.runtime.onConnect.addListener(function(port)
 		/**
 		* save domain prefs (history extension)
 		*/
-		else if (msg.action == "saveDomainPrefs")
+		else if (msg.action === "saveDomainPrefs")
 		{
 			CP.queryHistory({
 				action: "setConfig",
@@ -314,7 +313,7 @@ chrome.runtime.onConnect.addListener(function(port)
 		/**
 		* delete domain prefs (history extension)
 		*/
-		else if (msg.action == "deleteDomainPrefs")
+		else if (msg.action === "deleteDomainPrefs")
 		{
 			CP.queryHistory({
 				action: "deleteConfig",

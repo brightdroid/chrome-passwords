@@ -33,7 +33,7 @@ module.exports = function (grunt) {
 			},
 			js: {
 				files: ["<%= config.app %>/scripts/*.js"],
-				tasks: ["jshint"]
+				tasks: ["jshint:app"]
 			},
 			code: {
 				options: {
@@ -129,9 +129,14 @@ module.exports = function (grunt) {
 				jshintrc: ".jshintrc",
 				reporter: require("jshint-stylish")
 			},
-			all: [
+			app: [
 				"<%= config.app %>/scripts/{,*/}*.js",
 				"!<%= config.app %>/scripts/lib/*"
+			],
+			dist: [
+				"<%= config.dist %>/scripts/{,*/}*.js",
+				"!<%= config.dist %>/scripts/jqbootstrap.js",
+				"!<%= config.dist %>/scripts/lib/*"
 			]
 		},
 
@@ -147,9 +152,19 @@ module.exports = function (grunt) {
 		useminPrepare: {
 			html: "<%= config.app %>/{,*/}*.html",
 			options: {
-				dest: "<%= config.dist %>"
+				dest: "<%= config.dist %>",
+//				flow: {
+//					html: {
+//						steps: {
+//							js: ['concat'],
+//							css: ['concat', 'cssmin']
+//						},
+//						post: {}
+//					}
+//				}
 			}
 		},
+
 		usemin: {
 			html: ["<%= config.dist %>/{,*/}*.html"],
 			css: ["<%= config.dist %>/styles/{,*/}*.css"],
@@ -191,10 +206,24 @@ module.exports = function (grunt) {
 			}
 		},
 
+		// http://lisperator.net/uglifyjs
 		uglify: {
-//			options: {
-//				sourceMap: true
-//			},
+			options: {
+				mangle: false,
+				preserveComments: false,
+				//sourceMap: true,
+				report: "min",
+				beautify: {
+					"ascii_only": true
+				},
+				compress: {
+					drop_console: true,
+					sequences: false,
+					"hoist_funs": false,
+					loops: false,
+					unused: false
+				}
+			},
 			dist: {
 				files: {
 					"<%= config.dist %>/scripts/background.js": ["<%= config.app %>/scripts/background.js"],
@@ -231,7 +260,7 @@ module.exports = function (grunt) {
 						"images/{,*/}*.*",
 						"fonts/{,*/}*.*",
 						"_locales/{,*/}*.json",
-						"scripts/lib/{,*/}*.js"
+						"scripts/lib/{,*/}*.js",
 					]
 				}]
 			},
@@ -242,28 +271,11 @@ module.exports = function (grunt) {
 			chrome: [
 			],
 			dist: [
-				"jshint",
+				"jshint:app",
 				"less"
 			],
 			test: [
 			]
-		},
-
-		// Auto buildnumber, exclude debug files. smart builds that event pages
-		chromeManifest: {
-			dist: {
-				options: {
-					background: {
-						target: "scripts/background.js",
-						exclude: [
-							"scripts/chromereload.js",
-							"scripts/lib/"
-						]
-					}
-				},
-				src: "<%= config.app %>",
-				dest: "<%= config.dist %>"
-			}
 		},
 
 		// Compres dist files to package
@@ -290,15 +302,16 @@ module.exports = function (grunt) {
 			},
 			dist: {
 				files: [{
-					expand: true,     // Enable dynamic expansion.
-					cwd: "dist/",      // Src matches are relative to this path.
-					src: ["*.html"], // Actual pattern(s) to match.
-					dest: "dist/"   // Destination path prefix.
+					expand: true,
+					cwd: "dist/",
+					src: ["*.html"],
+					dest: "dist/"
 				}]
 			}
 		},
 
-		 modify_json: {
+		// modify manifest.json
+		modify_json: {
 			options: {
 				add: true,
 				fields: {
@@ -321,9 +334,9 @@ module.exports = function (grunt) {
 			}
 		},
 
-		removelogging: {
-			dist: {
-				src: "dist/scripts/*.js"
+		concat: {
+			options: {
+				separator: ';',
 			}
 		}
 	});
@@ -352,7 +365,6 @@ module.exports = function (grunt) {
 	grunt.registerTask("build", [
 		"clean",
 		"useminPrepare",
-		//"chromeManifest",
 		"concurrent:dist",
 		"concat",
 		"cssmin",
@@ -361,7 +373,7 @@ module.exports = function (grunt) {
 		"usemin",
 		"processhtml:dist",
 		"modify_json",
-		"removelogging",
+		//"jshint:dist",
 //		"compress"
 	]);
 

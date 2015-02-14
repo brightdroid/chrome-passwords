@@ -1,4 +1,3 @@
-"use strict";
 /* global addAlert */
 
 
@@ -8,7 +7,6 @@
 function editDomain(e)
 {
 	var row = $(e.target).closest("tr");
-	var domain = row.children("td:nth-child(1)");
 
 	$("#domain").val(row.children("td:nth-child(1)").text());
 	$("#counter").val(row.children("td:nth-child(2)").text());
@@ -23,7 +21,6 @@ function editDomain(e)
 function deleteDomain(e)
 {
 	var row = $(e.target).closest("tr");
-	var domain = row.children("td:nth-child(1)");
 
 	$("#domain").val(row.children("td:nth-child(1)").text());
 
@@ -42,7 +39,7 @@ bgPort.onMessage.addListener(function(msg)
 	/**
 	 * update table with all Domains from history extension
 	 */
-	if (msg.called == "getAllDomains")
+	if (msg.called === "getAllDomains")
 	{
 		// history extension not installed
 		if (msg.data === undefined)
@@ -125,7 +122,9 @@ $(function()
 
 		$("#modal_edit").modal("hide");
 
-		bgPort.postMessage({"action": "getAllDomains"});
+		addAlert("success", chrome.i18n.getMessage("alert_form_save"));
+
+		//bgPort.postMessage({"action": "getAllDomains"});
 	});
 
 	// modal delete: save
@@ -138,7 +137,9 @@ $(function()
 
 		$("#modal_delete").modal("hide");
 
-		bgPort.postMessage({"action": "getAllDomains"});
+		addAlert("success", chrome.i18n.getMessage("alert_form_save"));
+
+		//bgPort.postMessage({"action": "getAllDomains"});
 	});
 
 });

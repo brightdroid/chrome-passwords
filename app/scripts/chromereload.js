@@ -1,5 +1,3 @@
-"use strict";
-
 var LIVERELOAD_HOST = "localhost:";
 var LIVERELOAD_PORT = 35731;
 var livereloadSocket = new WebSocket("ws://" + LIVERELOAD_HOST + LIVERELOAD_PORT + "/livereload");

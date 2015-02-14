@@ -39,7 +39,8 @@
         }
     ],
     "web_accessible_resources": [
-        "images/*.png"
+        "images/*.png",
+        "scripts/*.js.map"
     ],
     "options_page": "options.html",
     "page_action": {

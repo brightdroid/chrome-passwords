@@ -1,6 +1,3 @@
-"use strict";
-
-
 /**
  * add alerts to content
  */

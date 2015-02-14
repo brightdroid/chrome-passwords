@@ -1,6 +1,3 @@
-"use strict";
-
-
 /**
  * function to send new password to current tab
  */
@@ -38,7 +35,7 @@ bgPort.onMessage.addListener(function(msg)
 	/**
 	 * check if username is set && prefill form
 	 */
-	if (msg.called == "getPrefs")
+	if (msg.called === "getPrefs")
 	{
 		if (msg.data.username === undefined || msg.data.username.length === 0)
 		{
@@ -57,7 +54,7 @@ bgPort.onMessage.addListener(function(msg)
 	/**
 	 * updated form with new domain settings
 	 */
-	else if (msg.called == "getDomainPrefs")
+	else if (msg.called === "getDomainPrefs")
 	{
 		$("#domain").val(msg.data.domain);
 		$("#counter").val(msg.data.counter);
@@ -67,7 +64,7 @@ bgPort.onMessage.addListener(function(msg)
 	/**
 	 * received password
 	 */
-	else if (msg.called == "generatePassword")
+	else if (msg.called === "generatePassword")
 	{
 		// disable loading icon
 		$("#submit img").addClass("hidden");
@@ -117,7 +114,7 @@ $(function()
 	});
 
 	// input change event
-	$(":input[required]").change(function(e)
+	$(":input[required]").change(function()
 	{
 		if ($(this).val().length < 1)
 		{
@@ -147,7 +144,7 @@ $(function()
 	});
 
 	// textarea
-	$("#password").click(function(e)
+	$("#password").click(function()
 	{
 		$(this).select();
 	});

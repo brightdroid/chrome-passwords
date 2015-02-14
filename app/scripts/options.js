@@ -1,4 +1,3 @@
-"use strict";
 /* global addAlert */
 
 
@@ -13,7 +12,7 @@ bgPort.onMessage.addListener(function(msg)
 	/**
 	 * prefill form with user prefs
 	 */
-	if (msg.called == "getPrefs")
+	if (msg.called === "getPrefs")
 	{
 		$.each(msg.data, function(k, v)
 		{
@@ -92,7 +91,7 @@ $(function()
 });
 
 
-$(window).on("beforeunload", function (e)
+$(window).on("beforeunload", function()
 {
 	if ($("input:invalid").length > 0)
 	{

@@ -1,6 +1,3 @@
-"use strict";
-
-
 /**
  * password field selection
  */
@@ -10,7 +7,7 @@ function toggleMPW(e)
 	var val = elm.getAttribute("data-mpw");
 
 	// disable
-	if (val && val == "true")
+	if (val && val === "true")
 	{
 		elm.style.backgroundPositionX = "-100px";
 		elm.setAttribute("data-mpw", false);
