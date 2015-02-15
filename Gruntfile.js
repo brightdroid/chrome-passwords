@@ -96,6 +96,14 @@ module.exports = function (grunt) {
 		clean: {
 			chrome: {
 			},
+			app: {
+				files: [{
+					dot: true,
+					src: [
+						"<%= config.app %>/fonts/*"
+					]
+				}]
+			},
 			dist: {
 				files: [{
 					dot: true,
@@ -168,25 +176,12 @@ module.exports = function (grunt) {
 		usemin: {
 			html: ["<%= config.dist %>/{,*/}*.html"],
 			css: ["<%= config.dist %>/styles/{,*/}*.css"],
-			options: {
-//				root: ["<%= config.dist %>"],
-//				assetsDirs: ["<%= config.dist %>", "<%= config.dist %>/images", "<%= config.dist %>/fonts"],
-			}
 		},
 
 		cssmin: {
 			options: {
 				rebase: false,
 			},
-/*			dist: {
-				files: [{
-					expand: true,
-					cwd: "<%= config.app %>/styles",
-					src: ["*.css", "!*.min.css"],
-					dest: "<%= config.dist %>/styles",
-					ext: ".min.css"
-				}]
-			}*/
 		},
 
 		htmlmin: {
