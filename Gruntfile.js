@@ -153,15 +153,15 @@ module.exports = function (grunt) {
 			html: "<%= config.app %>/{,*/}*.html",
 			options: {
 				dest: "<%= config.dist %>",
-//				flow: {
-//					html: {
-//						steps: {
-//							js: ['concat'],
-//							css: ['concat', 'cssmin']
-//						},
-//						post: {}
-//					}
-//				}
+				flow: {
+					html: {
+						steps: {
+							js: ['concat', 'uglifyjs'],
+							css: ['cssmin']
+						},
+						post: {}
+					}
+				}
 			}
 		},
 
@@ -169,20 +169,24 @@ module.exports = function (grunt) {
 			html: ["<%= config.dist %>/{,*/}*.html"],
 			css: ["<%= config.dist %>/styles/{,*/}*.css"],
 			options: {
-				dirs: ["<%= config.dist %>"]
+//				root: ["<%= config.dist %>"],
+//				assetsDirs: ["<%= config.dist %>", "<%= config.dist %>/images", "<%= config.dist %>/fonts"],
 			}
 		},
 
 		cssmin: {
-			dist: {
+			options: {
+				rebase: false,
+			},
+/*			dist: {
 				files: [{
 					expand: true,
-					cwd: "<%= config.dist %>/styles",
+					cwd: "<%= config.app %>/styles",
 					src: ["*.css", "!*.min.css"],
 					dest: "<%= config.dist %>/styles",
 					ext: ".min.css"
 				}]
-			}
+			}*/
 		},
 
 		htmlmin: {
@@ -238,12 +242,6 @@ module.exports = function (grunt) {
 				files: [{
 					expand: true,
 					dot: true,
-					cwd: "<%= config.app %>/bower_components/font-awesome/fonts/",
-					dest: "<%= config.app %>/fonts/font-awesome",
-					src: ["*"]
-				}, {
-					expand: true,
-					dot: true,
 					cwd: "<%= config.app %>/bower_components/bootstrap/dist/fonts/",
 					dest: "<%= config.app %>/fonts/glyphicons",
 					src: ["*"]
@@ -284,7 +282,7 @@ module.exports = function (grunt) {
 				options: {
 					archive: function() {
 						var manifest = grunt.file.readJSON("app/manifest.json");
-						return "package/yo chrome extension-" + manifest.version + ".zip";
+						return "extension/v" + manifest.version + ".zip";
 					}
 				},
 				files: [{
@@ -362,19 +360,23 @@ module.exports = function (grunt) {
 		"mocha"
 	]);
 
-	grunt.registerTask("build", [
+	grunt.registerTask("dist", [
 		"clean",
-		"useminPrepare",
+		"copy",
 		"concurrent:dist",
+		"useminPrepare",
 		"concat",
 		"cssmin",
 		"uglify",
-		"copy",
 		"usemin",
 		"processhtml:dist",
 		"modify_json",
 		//"jshint:dist",
-//		"compress"
+	]);
+
+	grunt.registerTask("build", [
+		"dist",
+		"compress"
 	]);
 
 	grunt.registerTask("default", [
