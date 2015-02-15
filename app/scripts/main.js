@@ -21,9 +21,8 @@ function addAlert(type, message)
 	dialog.append(button);
 	dialog.append(p);
 
-	dialog.insertAfter(".content h2");
-
 	dialog
+		.insertAfter(".content h2")
 		.slideDown()
 		.delay(3000)
 		.slideUp(function()

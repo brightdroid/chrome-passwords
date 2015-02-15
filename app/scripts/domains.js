@@ -124,7 +124,7 @@ $(function()
 
 		addAlert("success", chrome.i18n.getMessage("alert_form_save"));
 
-		//bgPort.postMessage({"action": "getAllDomains"});
+		bgPort.postMessage({"action": "getAllDomains"});
 	});
 
 	// modal delete: save
@@ -139,7 +139,7 @@ $(function()
 
 		addAlert("success", chrome.i18n.getMessage("alert_form_save"));
 
-		//bgPort.postMessage({"action": "getAllDomains"});
+		bgPort.postMessage({"action": "getAllDomains"});
 	});
 
 });
