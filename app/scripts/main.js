@@ -22,9 +22,9 @@ function addAlert(type, message)
 	dialog.append(p);
 
 	dialog
-		.insertAfter(".content h2")
+		.prependTo(".content")
 		.slideDown()
-		.delay(3000)
+		.delay(5000)
 		.slideUp(function()
 		{
 			$(this).remove();
