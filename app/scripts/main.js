@@ -23,12 +23,7 @@ function addAlert(type, message)
 
 	dialog
 		.prependTo(".content")
-		.slideDown()
-		.delay(5000)
-		.slideUp(function()
-		{
-			$(this).remove();
-		});
+		.slideDown();
 }
 
 
