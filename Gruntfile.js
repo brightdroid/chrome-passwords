@@ -207,6 +207,7 @@ module.exports = function (grunt) {
 
 		// http://lisperator.net/uglifyjs
 		uglify: {
+			/*
 			options: {
 				mangle: false,
 				preserveComments: false,
@@ -221,6 +222,12 @@ module.exports = function (grunt) {
 					"hoist_funs": false,
 					loops: false,
 					unused: false
+				}
+			},
+			*/
+			options: {
+				compress: {
+					drop_console: true,
 				}
 			},
 			dist: {
@@ -310,6 +317,7 @@ module.exports = function (grunt) {
 				fields: {
 					background: {
 						scripts: [
+							"scripts/jquery.min.js",
 							"scripts/background.js",
 							"scripts/lib/traceur-runtime.js",
 							"scripts/lib/setImmediate-polyfill.js",
@@ -318,7 +326,8 @@ module.exports = function (grunt) {
 							"scripts/lib/scrypt-asm.js",
 							"scripts/lib/scrypt.js",
 							"scripts/lib/mpw.js"
-						]
+						],
+						persistent: false
 					}
 				}
 			},

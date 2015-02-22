@@ -15,6 +15,7 @@ function editDomain(e)
 	$("#modal_edit").modal("show");
 }
 
+
 /**
  * delete domain
  */
@@ -36,10 +37,11 @@ var bgPort = chrome.runtime.connect({name: "background"});
 bgPort.onMessage.addListener(function(msg)
 {
 	console.log("msg", msg);
+
 	/**
 	 * update table with all Domains from history extension
 	 */
-	if (msg.called === "getAllDomains")
+	if (msg.called === "extension" && msg.subcall === "getDomains")
 	{
 		// history extension not installed
 		if (msg.data === undefined)
@@ -93,6 +95,71 @@ bgPort.onMessage.addListener(function(msg)
 					})
 				)
 			);
+
+
+	}
+	/**
+	 * save domain response
+	 */
+	else if (msg.called === "extension" && msg.extension === "history" && msg.subcall === "saveDomain")
+	{
+		if (msg.data.alert)
+		{
+			addAlert(msg.data.alert.type, chrome.i18n.getMessage(msg.data.alert.msg));
+
+		}
+		else
+		{
+			addAlert("success", chrome.i18n.getMessage("alert_form_save"));
+		}
+
+
+	}
+	/**
+	 * received license from history extension
+	 */
+	else if (msg.called === "extension" && msg.extension === "history" && msg.subcall === "getLicenseInfo")
+	{
+		if (!msg.data)
+		{
+			return;
+		}
+
+		switch (msg.data.license)
+		{
+			case "FREE_TRIAL":
+				// show hint 3 days before trial expires
+				var daysUntil = Math.round(msg.data.trialDays - msg.data.licenseDays);
+				if (daysUntil <= 3)
+				{
+					var buyButton = $("<a>", {
+						"class": "btn btn-info",
+						"href": "https://chrome.google.com/webstore/detail/cmeaokcaickhjmmbbkkncmbmjmjnoigj",
+						"target": "_blank"
+					}).text(chrome.i18n.getMessage("button_upgrade"));
+
+					addAlert(
+						"info",
+						chrome.i18n.getMessage("alert_ext_history_trial_long", [daysUntil]),
+						[buyButton]
+					);
+				}
+				break;
+
+			case "FREE_TRIAL_EXPIRED":
+				var upgradeButton = $("<a>", {
+					"class": "btn btn-warning",
+					"href": "https://chrome.google.com/webstore/detail/cmeaokcaickhjmmbbkkncmbmjmjnoigj",
+					"target": "_blank"
+				}).text(chrome.i18n.getMessage("button_upgrade"));
+
+				addAlert(
+					"warning",
+					chrome.i18n.getMessage("alert_ext_history_trial_expired_long"),
+					[upgradeButton]
+				);
+				break;
+		}
 	}
 });
 
@@ -102,10 +169,28 @@ bgPort.onMessage.addListener(function(msg)
 $(function()
 {
 	/**
-	 * load current settings
+	 * load list
 	 */
-	bgPort.postMessage({"action": "getAllDomains"});
+	function updateList()
+	{
+		bgPort.postMessage({
+			extension: "history",
+			action: "extension",
+			subaction: "getDomains"
+		});
+	}
 
+	updateList();
+
+
+	/**
+	 * check license
+	 */
+	bgPort.postMessage({
+		action: "extension",
+		extension: "history",
+		subaction: "getLicenseInfo"
+	});
 
 	/**
 	 * add events
@@ -114,7 +199,9 @@ $(function()
 	$("#modal_edit :submit").click(function()
 	{
 		bgPort.postMessage({
-			action: "saveDomainPrefs",
+			extension: "history",
+			action: "extension",
+			subaction: "saveDomain",
 			domain: $("#domain").val(),
 			counter: $("#counter").val(),
 			template: $("#template").val()
@@ -122,16 +209,16 @@ $(function()
 
 		$("#modal_edit").modal("hide");
 
-		addAlert("success", chrome.i18n.getMessage("alert_form_save"));
-
-		bgPort.postMessage({"action": "getAllDomains"});
+		updateList();
 	});
 
 	// modal delete: save
 	$("#modal_delete :submit").click(function()
 	{
 		bgPort.postMessage({
-			action: "deleteDomainPrefs",
+			extension: "history",
+			action: "extension",
+			subaction: "deleteDomain",
 			domain: $("#domain").val()
 		});
 
@@ -139,7 +226,7 @@ $(function()
 
 		addAlert("success", chrome.i18n.getMessage("alert_form_save"));
 
-		bgPort.postMessage({"action": "getAllDomains"});
+		updateList();
 	});
 
 });

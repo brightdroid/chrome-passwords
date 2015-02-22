@@ -124,6 +124,11 @@
 	"button_install": {
 		"message": "Install"
 	},
+	"button_upgrade": {
+		"message": "Upgrade"
+	},
+
+
 	"alert_input_invalid": {
 		"message": "Invalid input, really close?"
 	},
@@ -132,6 +137,31 @@
 	},
 	"alert_form_save": {
 		"message": "Saved!"
+	},
+	"alert_ext_history_trial": {
+		"message": "History trial ends in $DAYS$ days.",
+		"placeholders": {
+			"days": {
+				"content": "$1"
+			}
+		}
+	},
+	"alert_ext_history_trial_long": {
+		"message": "History trial ends in $days$ days.",
+		"placeholders": {
+			"days": {
+				"content": "$1"
+			}
+		}
+	},
+	"alert_ext_history_trial_expired": {
+		"message": "History extension trial expired!"
+	},
+	"alert_ext_history_trial_expired_long": {
+		"message": "History Extension trial period expired!<br>Buy to release all features and manage unlimited number of domains."
+	},
+	"alert_ext_history_trial_exceeded": {
+		"message": "Number of Trial Domains exceeded!"
 	},
 
 

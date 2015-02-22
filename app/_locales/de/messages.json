@@ -124,6 +124,11 @@
 	"button_install": {
 		"message": "Installieren"
 	},
+	"button_upgrade": {
+		"message": "Upgrade"
+	},
+
+
 	"alert_input_invalid": {
 		"message": "Ungültige Eingaben, wirklich schließen?"
 	},
@@ -132,6 +137,31 @@
 	},
 	"alert_form_save": {
 		"message": "Gespeichert!"
+	},
+	"alert_ext_history_trial": {
+		"message": "History Ext. Probezeit endet in $days$ Tagen.",
+		"placeholders": {
+			"days": {
+				"content": "$1"
+			}
+		}
+	},
+	"alert_ext_history_trial_long": {
+		"message": "History Extension Probezeit endet in $days$ Tagen.",
+		"placeholders": {
+			"days": {
+				"content": "$1"
+			}
+		}
+	},
+	"alert_ext_history_trial_expired": {
+		"message": "History Ext. Probezeit abgelaufen!"
+	},
+	"alert_ext_history_trial_expired_long": {
+		"message": "History Extension Probezeit abgelaufen!<br>Erwerben Sie die Erweiterung um wieder alle Funktionen freizuschalten und unbegrenzt viele Domains verwalten zu können."
+	},
+	"alert_ext_history_trial_exceeded": {
+		"message": "Anzahl Probedomains erreicht!"
 	},
 
 

@@ -1,3 +1,11 @@
+/* global addAlert */
+
+/**
+ * extension messaging
+ */
+var bgPort = chrome.runtime.connect({name: "background"});
+
+
 /**
  * function to send new password to current tab
  */
@@ -17,7 +25,15 @@ function setPassword(pass)
 				password: pass
 			});
 
-			window.close();
+			// save domain settings
+			bgPort.postMessage({
+				action: "extension",
+				extension: "history",
+				subaction: "saveDomain",
+				domain: $("#domain").val(),
+				template: $("#template").val(),
+				counter: $("#counter").val()
+			});
 		}
 	);
 }
@@ -27,13 +43,11 @@ function setPassword(pass)
 /**
  * extension messaging
  */
-var bgPort = chrome.runtime.connect({name: "background"});
-
 bgPort.onMessage.addListener(function(msg)
 {
 	console.log("msg", msg);
 	/**
-	 * check if username is set && prefill form
+	 * check if username is set
 	 */
 	if (msg.called === "getPrefs")
 	{
@@ -44,11 +58,6 @@ bgPort.onMessage.addListener(function(msg)
 			});
 		}
 
-		$.each(msg.data, function(k, v)
-		{
-			$("[data-option='" + k + "']").val(v);
-		});
-
 
 	}
 	/**
@@ -56,9 +65,11 @@ bgPort.onMessage.addListener(function(msg)
 	 */
 	else if (msg.called === "getDomainPrefs")
 	{
-		$("#domain").val(msg.data.domain);
-		$("#counter").val(msg.data.counter);
-		$("#template").val(msg.data.template);
+		$.each(msg.data, function(k, v)
+		{
+			$("#" + k).val(v);
+		});
+
 
 	}
 	/**
@@ -66,11 +77,14 @@ bgPort.onMessage.addListener(function(msg)
 	 */
 	else if (msg.called === "generatePassword")
 	{
+		// enable form elements
+		$("form :input:not(button)").attr("disabled", false);
+
 		// disable loading icon
 		$("#submit img").addClass("hidden");
 
 		// close window when cleartext is not checked
-		if (!$("#cleartext").is(":checked"))
+		if (!$("#cleartext").is(":checked") && !msg.alert)
 		{
 			setPassword(msg.data.password);
 
@@ -78,9 +92,82 @@ bgPort.onMessage.addListener(function(msg)
 		// show accept button & password
 		else
 		{
-			$("textarea[name=password]").val(msg.data.password);
-			$("#password").parent().removeClass("hidden");
+			// alert?
+			if (msg.alert)
+			{
+				addAlert(msg.alert.type, msg.alert.message);
+			}
+
+			if (msg.data.password)
+			{
+				$("textarea[name=password]").val(msg.data.password);
+				$("#password").parent().removeClass("hidden");
+			}
+
 			$("#submit button").removeClass("hidden");
+		}
+
+
+	}
+	/**
+	 * received result from history extension saveDomain
+	 */
+	else if (msg.called === "extension" && msg.extension === "history" && msg.subcall === "saveDomain")
+	{
+		if (msg.data.alert)
+		{
+			$(".alert, form").remove();
+
+			addAlert(
+				msg.data.alert.type,
+				chrome.i18n.getMessage(msg.data.alert.msg)
+			);
+
+		}
+		else
+		{
+			window.close();
+		}
+
+
+	}
+	/**
+	 * received license from history extension
+	 */
+	else if (msg.called === "extension" && msg.extension === "history" && msg.subcall === "getLicenseInfo")
+	{
+		if (!msg.data)
+		{
+			return;
+		}
+
+		switch (msg.data.license)
+		{
+			case "FREE_TRIAL":
+				// show hint 3 days before trial expires
+				var daysUntil = Math.round(msg.data.trialDays - msg.data.licenseDays);
+				if (daysUntil <= 3)
+				{
+					addAlert(
+						"info",
+						chrome.i18n.getMessage("alert_ext_history_trial", [daysUntil])
+					);
+				}
+				break;
+
+			case "FREE_TRIAL_EXPIRED":
+				var upgradeButton = $("<a>", {
+					"class": "btn btn-warning",
+					"href": chrome.extension.getURL("domains.html"),
+					"target": "_blank"
+				}).text(chrome.i18n.getMessage("button_upgrade"));
+
+				addAlert(
+					"warning",
+					chrome.i18n.getMessage("alert_ext_history_trial_expired"),
+					[ upgradeButton ]
+				);
+				break;
 		}
 	}
 });
@@ -96,6 +183,35 @@ $(function()
 	 * check if username is empty
 	 */
 	bgPort.postMessage({action: "getPrefs"});
+
+
+    /**
+	 * load current settings
+	 */
+	chrome.tabs.executeScript(
+		null,
+		{
+			code: "document.location.host"
+		},
+		function(result)
+		{
+			bgPort.postMessage({
+				action: "getDomainPrefs",
+				domain: result[0]
+			});
+		}
+	);
+
+
+	/**
+	 * check license
+	 */
+	bgPort.postMessage({
+		action: "extension",
+		extension: "history",
+		subaction: "getLicenseInfo"
+	});
+
 
 	/**
 	 * add events && init
@@ -155,6 +271,7 @@ $(function()
 		e.preventDefault();
 
 		// hide elements & show loading icon
+		$("form :input:not(button)").attr("disabled", true);
 		$("#password").parent().addClass("hidden");
 		$("#submit button").addClass("hidden");
 		$("#submit img").removeClass("hidden");
@@ -162,28 +279,11 @@ $(function()
 		// request password
 		bgPort.postMessage({
 			action: "generatePassword",
-			master: $("input[name=master]").val(),
-			domain: $("input[name=domain]").val(),
-			template: $("select[name=template]").val(),
-			counter: $("input[name=counter]").val()
+			master: $("#master").val(),
+			domain: $("#domain").val(),
+			template: $("#template").val(),
+			counter: $("#counter").val()
 		});
 	});
 
-
-    /**
-	 * load current settings
-	 */
-	chrome.tabs.executeScript(
-		null,
-		{
-			code: "document.location.host"
-		},
-		function(result)
-		{
-			bgPort.postMessage({
-				action: "getDomainPrefs",
-				domain: result[0]
-			});
-		}
-	);
 });

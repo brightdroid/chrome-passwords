@@ -1,7 +1,7 @@
 /**
  * add alerts to content
  */
-function addAlert(type, message)
+function addAlert(type, message, buttons)
 {
 	var dialog = $("<div></div>", {
 		"class": "alert alert-dismissible alert-" + type
@@ -16,10 +16,22 @@ function addAlert(type, message)
 	var close = $("<span>").html("&times;");
 	button.append(close);
 
-	var p = $("<p>").text(message);
+	var p = $("<p>").html(message);
 
 	dialog.append(button);
 	dialog.append(p);
+
+	if (buttons !== undefined)
+	{
+		p = $("<p>");
+
+		for (var n in buttons)
+		{
+			p.append(buttons[n]);
+		}
+		
+		dialog.append(p);
+	}
 
 	dialog
 		.prependTo(".content")

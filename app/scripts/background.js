@@ -18,8 +18,10 @@ function ChromePasswords()
 	// user defined templates
 	this.templates = {};
 
-	// history extension
-	this.historyExtensionId = "cmeaokcaickhjmmbbkkncmbmjmjnoigj";
+	// extensions
+	this.extensions = {
+		history: "cmeaokcaickhjmmbbkkncmbmjmjnoigj"
+	};
 
 
 	/**
@@ -76,10 +78,11 @@ ChromePasswords.prototype.getDomainPrefs = function(domain, callback)
 
 	// ask history storage for settings
 	var sup = this;
-	this.queryHistory(
+	this.queryExtension(
+		"history",
 		{
-			"action": "getConfig",
-			"domain": domain
+			action: "getDomain",
+			domain: domain
 		},
 		function(response)
 		{
@@ -110,12 +113,12 @@ ChromePasswords.prototype.getDomainPrefs = function(domain, callback)
 
 
 /**
- * query history extension
+ * query extension
  */
-ChromePasswords.prototype.queryHistory = function(request, callback)
+ChromePasswords.prototype.queryExtension = function(extension, request, callback)
 {
 	chrome.runtime.sendMessage(
-		this.historyExtensionId,
+		this.extensions[extension],
 		request,
 		callback
 	);
@@ -217,7 +220,7 @@ chrome.runtime.onConnect.addListener(function(port)
 		else if (msg.action === "savePrefs" && msg.data)
 		{
 			chrome.storage.sync.set({
-				"prefs": msg.data
+				prefs: msg.data
 			});
 
 
@@ -235,18 +238,23 @@ chrome.runtime.onConnect.addListener(function(port)
 
 		}
 		/**
-		* get all domains (history extension)
+		* call subaction in sub-extension
 		*/
-		else if (msg.action === "getAllDomains")
+		else if (msg.action === "extension" && msg.extension && msg.subaction)
 		{
-			CP.queryHistory(
-				{
-					action: "getAll"
-				},
+			var params = $.extend({}, msg, { action: msg.subaction });
+			delete params.subaction;
+			delete params.extension;
+
+			CP.queryExtension(
+				msg.extension,
+				params,
 				function(response)
 				{
 					port.postMessage({
 						called: msg.action,
+						extension: msg.extension,
+						subcall: params.action,
 						data: response
 					});
 				}
@@ -262,7 +270,15 @@ chrome.runtime.onConnect.addListener(function(port)
 			// correct params?
 			if (!msg.master || !msg.domain || !msg.counter || !msg.template)
 			{
-				throw new Error("Error calling generate function, wrong params!");
+				port.postMessage({
+					called: "generatePassword",
+					alert: {
+						type: "danger",
+						message: "Error calling generate function, wrong params!"
+					}
+				});
+
+				return;
 			}
 
 			// generate master key
@@ -276,49 +292,23 @@ chrome.runtime.onConnect.addListener(function(port)
 					port.postMessage({
 						called: "generatePassword",
 						data: {
-							password: pass
+							password: pass,
 						}
 					});
 
 				},
 				function ()
 				{
-					throw new Error("Password could not be generated, please open a issue at https://github.com/brightdroid/chrome-passwords");
+					port.postMessage({
+						called: "generatePassword",
+						alert: {
+							type: "danger",
+							message: "Password could not be generated, please open a issue at https://github.com/brightdroid/chrome-passwords"
+						}
+					});
 				}
 			);
 
-			CP.queryHistory({
-				action: "setConfig",
-				domain: msg.domain,
-				counter: msg.counter,
-				template: msg.template
-			});
-
-
-		}
-		/**
-		* save domain prefs (history extension)
-		*/
-		else if (msg.action === "saveDomainPrefs")
-		{
-			CP.queryHistory({
-				action: "setConfig",
-				domain: msg.domain,
-				counter: msg.counter,
-				template: msg.template
-			});
-
-
-		}
-		/**
-		* delete domain prefs (history extension)
-		*/
-		else if (msg.action === "deleteDomainPrefs")
-		{
-			CP.queryHistory({
-				action: "deleteConfig",
-				domain: msg.domain
-			});
 		}
 
 	});
