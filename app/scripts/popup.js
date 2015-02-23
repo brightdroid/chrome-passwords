@@ -114,7 +114,7 @@ bgPort.onMessage.addListener(function(msg)
 	 */
 	else if (msg.called === "extension" && msg.extension === "history" && msg.subcall === "saveDomain")
 	{
-		if (msg.data.alert)
+		if (msg.data && msg.data.alert)
 		{
 			$(".alert, form").remove();
 
