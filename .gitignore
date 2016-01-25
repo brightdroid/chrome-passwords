@@ -2,9 +2,7 @@ node_modules
 temp
 .tmp
 dist
-app/bower_components
-app/fonts
-app/styles/*.css
-app/styles/*.map
+app
+src/bower_components
 test/bower_components
 extension
