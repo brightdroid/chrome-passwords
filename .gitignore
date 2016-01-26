@@ -1,6 +1,4 @@
 node_modules
-temp
-.tmp
 dist
 app
 src/bower_components
