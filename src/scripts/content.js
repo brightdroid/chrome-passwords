@@ -1,39 +1,163 @@
-/**
- * password field selection
- */
-function toggleMPW(e)
+function ChromePasswordsContent()
 {
-	var elm = e.target;
-	var val = elm.getAttribute("data-mpw");
+	this.dataFieldName = "chrome-passwords";
+	this.enabledFields = [];
+	this.disabledFields = [];
+}
 
-	// disable
-	if (val && val === "true")
+
+/**
+ * init password fields
+ */
+ChromePasswordsContent.prototype.initFields = function(context)
+{
+	var fields = $(":password", context);
+	var self = this;
+
+	console.log("initFields: ", context, fields.length);
+
+	fields.each(function(i)
 	{
-		elm.style.backgroundPositionX = "-100px";
-		elm.setAttribute("data-mpw", false);
+		// not a password field?
+		if (!$(this).is(":password"))
+		{
+			return;
+		}
+
+		// disabled?
+		if ($.inArray(this, self.disabledFields) > -1)
+		{
+			console.log("already disabled:", this);
+			return;
+		}
+
+		// enable field
+		self.enableField(this);
+	});
+
+	console.log("fields:", self.enabledFields, self.disabledFields);
+};
+
+
+/**
+ * enable CP for this password field
+ */
+ChromePasswordsContent.prototype.enableField = function(elm)
+{
+	// set styles and attr
+	$(elm)
+		.attr("title", chrome.i18n.getMessage("app_title"))
+		.data(this.dataFieldName, 1)
+		.css({
+			"background-image": "url(" + chrome.extension.getURL("images/icon38.png") + ")",
+			"background-position": "100% 50%",
+			"background-repeat": "no-repeat",
+			"background-size": "contain",
+		});
+
+	// add to enabled list
+	if ($.inArray(elm, this.enabledFields) === -1)
+	{
+		this.enabledFields.push(elm);
+	}
+
+	// remove from disabled list
+	var index = $.inArray(elm, this.disabledFields);
+	if (index > -1)
+	{
+		this.disabledFields.splice(index, 1);
+	}
+};
+
+
+/**
+ * disable CP for this password field
+ */
+ChromePasswordsContent.prototype.disableField = function(elm)
+{
+	$(elm)
+		.data(this.dataFieldName, 0)
+		.css("background-position-x", "-100px");
+
+	// add to disabled list
+	this.disabledFields.push(elm);
+
+	// remove from enabled list
+	var index = $.inArray(elm, this.enabledFields);
+	if (index > -1)
+	{
+		this.enabledFields.splice(index, 1);
+	}
+};
+
+
+/**
+ * toggle CP for this password field
+ */
+ChromePasswordsContent.prototype.toggle = function(elm)
+{
+	// disable
+	if ($.inArray(elm, this.enabledFields) > -1)
+	{
+		this.disableField(elm);
 
 	}
 	// enable
-	else
+	else if ($.inArray(elm, this.disabledFields) > -1)
 	{
-		elm.style.backgroundImage = "url(" + chrome.extension.getURL("images/icon38.png") + ")";
-		elm.style.backgroundPosition = "100% 50%";
-		elm.style.backgroundRepeat = "no-repeat";
-		elm.style.backgroundSize = "contain";
-		elm.setAttribute("data-mpw", true);
+		this.enableField(elm);
 	}
-}
 
+	console.log("fields:", this.enabledFields, this.disabledFields);
+};
 
 
 /**
- * add event handler
+ * update password in enabled password fields
  */
-var fields = document.querySelectorAll("input[type=password]");
-for (var i = 0; i < fields.length; i++)
+ChromePasswordsContent.prototype.updatePassword = function(password)
 {
-	fields[i].addEventListener("dblclick", toggleMPW);
-}
+	var self = this;
+
+	$(":password").each(function()
+	{
+		if ($.inArray(this, self.enabledFields) > -1)
+		{
+			console.log("updatePassword", this);
+
+			$(this).val(password);
+		}
+	}).change();
+};
+
+
+var CPC = new ChromePasswordsContent();
+
+
+/**
+ * init password fields
+ */
+CPC.initFields();
+
+
+/**
+ * attach dblclick to password fields
+ */
+$(document).on("dblclick", ":password", function(e)
+{
+	console.log("toggle", this);
+	CPC.toggle(this);
+});
+
+
+/**
+ * attach focus event
+ */
+$(document).on("focus", "input", function(e)
+{
+	console.log("focus new", this);
+	CPC.initFields();
+});
 
 
 
@@ -48,20 +172,7 @@ chrome.runtime.onConnect.addListener(function(port)
 
 		if (msg.action === "setPassword")
 		{
-			// are there selected fields?
-			fields = document.querySelectorAll("input[type=password][data-mpw=true]");
-
-			// no selected fields found, find all
-			if (fields.length === 0)
-			{
-				fields = document.querySelectorAll("input[type=password]");
-			}
-
-			// update values
-			for (i=0; i < fields.length; i++)
-			{
-				fields[i].value = msg.password;
-			}
+			CPC.updatePassword(msg.password);
 		}
 	});
 });

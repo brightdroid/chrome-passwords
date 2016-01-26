@@ -33,6 +33,7 @@
                 "*://*/*"
             ],
             "js": [
+				"scripts/jquery.js",
                 "scripts/content.js"
             ],
             "all_frames": true
