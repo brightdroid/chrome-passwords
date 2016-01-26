@@ -4,11 +4,6 @@ var notifier = require('node-notifier');
 var gulpLoadPlugins = require('gulp-load-plugins');
 var $ = gulpLoadPlugins();
 
-// Frontend
-$.livereload.listen({
-	port: 35729
-});
-
 
 // copy
 gulp.task('_copy', function()
@@ -133,7 +128,12 @@ gulp.task('watch', ['app'], function()
 	// image files
  	gulp.watch('src/images/**/*', ['_images']);
 
-	// LiveReload Content
+	// LiveReload Server
+	$.livereload.listen({
+		port: 35729
+	});
+
+	// LiveReload watch
 	gulp.watch([
 			'app/**/*'
 		], $.batch(function(events, done)
