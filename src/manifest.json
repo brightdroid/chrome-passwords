@@ -15,9 +15,8 @@
     },
     "background": {
         "scripts": [
-			"bower_components/jquery/dist/jquery.js",
+			"scripts/jquery.js",
             "scripts/background.js",
-            "scripts/chromereload.js",
             "scripts/lib/traceur-runtime.js",
             "scripts/lib/setImmediate-polyfill.js",
             "scripts/lib/hmac-sha256.js",

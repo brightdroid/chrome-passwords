@@ -4,20 +4,44 @@ var notifier = require('node-notifier');
 var gulpLoadPlugins = require('gulp-load-plugins');
 var $ = gulpLoadPlugins();
 
+// Frontend
+$.livereload.listen({
+	port: 35729
+});
+
 
 // copy
 gulp.task('_copy', function()
 {
 	gulp.src([
-			'app/*.*',
-			'app/_locales/**/*',
-			'app/scripts/lib/**/*',
-		], { base: 'app' })
-		.pipe(gulp.dest('dist'));
+			'src/manifest.json',
+			'src/_locales/**/*.json',
+			'src/scripts/lib/**/*.js',
+			'src/manifest.json',
+			'src/_locales/**/*.json',
+			'src/scripts/lib/**/*.js',
+		], { base: 'src' })
+		.pipe($.changed('app'))
+		.pipe(gulp.dest('app'));
 
-	gulp.src(['app/bower_components/bootstrap/dist/fonts/**/*'])
+	gulp.src('src/bower_components/bootstrap/dist/fonts/**/*')
+		.pipe($.changed('app/fonts'))
 		.pipe(gulp.dest('app/fonts'));
 
+	gulp.src(['src/bower_components/jquery/dist/jquery.js'])
+		.pipe($.changed('app/scripts'))
+		.pipe(gulp.dest('app/scripts'));
+});
+
+
+// html
+gulp.task('_html', function()
+{
+	return gulp.src([
+			'src/*.html'
+		])
+		.pipe($.changed('app'))
+		.pipe(gulp.dest('app'));
 });
 
 
@@ -25,8 +49,8 @@ gulp.task('_copy', function()
 gulp.task('_styles', function()
 {
 	return gulp.src([
-			'!app/styles/**/_*.less',
-			'app/styles/**/*.less'
+			'!src/styles/**/_*.less',
+			'src/styles/**/*.less'
 		])
 		.pipe($.less())
 		.pipe(gulp.dest('app/styles'))
@@ -39,11 +63,11 @@ gulp.task('_styles', function()
 // scripts
 gulp.task('_scripts', function()
 {
-	return gulp.src('app/scripts/*.js')
+	return gulp.src('src/scripts/*.js')
 		.pipe($.jshint('.jshintrc'))
 		.pipe($.jshint.reporter('default'))
-		/*.pipe(gulp.dest('dist/scripts'))
-		.pipe($.rename({ suffix: '.min' }))
+		.pipe(gulp.dest('app/scripts'))
+		/*.pipe($.rename({ suffix: '.min' }))
 		.pipe($.uglify())
 		.pipe(gulp.dest('dist/scripts'))*/;
 });
@@ -52,9 +76,9 @@ gulp.task('_scripts', function()
 // images
 gulp.task('_images', function()
 {
-	return gulp.src('app/images/**/*')
+	return gulp.src('src/images/**/*')
 		.pipe($.cache($.imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
-		.pipe(gulp.dest('dist/images'));
+		.pipe(gulp.dest('app/images'));
 });
 
 
@@ -63,19 +87,21 @@ gulp.task('_images', function()
 gulp.task('clean', function()
 {
 	del([
-		'app/styles/**/*.css',
+		'app/*',
+		'!app/bower_components',
 		'dist/*'
 	]);
 
-	return $.cache.clearAll();
+	$.cache.clearAll();
 });
 
 
 // dist
-gulp.task('dist', ['clean'], function()
+gulp.task('app', ['clean'], function()
 {
-	gulp.start('_copy', '_styles', '_scripts', '_images')
-	notifier.notify({ title: "Gulp", message: 'Dist complete' });
+	gulp.start('_copy', '_html', '_styles', '_scripts', '_images');
+
+	notifier.notify({ title: "Gulp", message: 'App Ready!' });
 });
 
 
@@ -84,27 +110,41 @@ gulp.task('default', ['watch']);
 
 
 // Watch
-gulp.task('watch', ['dist'], function()
+gulp.task('watch', ['app'], function()
 {
-	// Watch .less files
- 	gulp.watch('app/styles/**/*.less', ['_styles']);
+	// Chrome-Ext. core files
+	gulp.watch([
+			'src/manifest.json',
+			'src/_locales/**/*.json',
+			'src/scripts/lib/**/*.js',
+			'src/bower_components/bootstrap/dist/fonts/**/*',
+			'src/bower_components/jquery/dist/jquery.js',
+		], ['_copy']);
 
-	// Watch .js files
- 	gulp.watch('app/scripts/**/*.js', ['_scripts']);
+	// .html files
+ 	gulp.watch('src/*.html', ['_html']);
 
-	// Watch image files
- 	gulp.watch('app/images/**/*', ['_images']);
+	// .less files
+ 	gulp.watch('src/styles/**/*.less', ['_styles']);
 
-	// Create LiveReload server
-	$.livereload.listen();
+	// .js files
+ 	gulp.watch('src/scripts/**/*.js', ['_scripts']);
 
-	// Watch Chrome core file changes
+	// image files
+ 	gulp.watch('src/images/**/*', ['_images']);
+
+	// LiveReload Content
 	gulp.watch([
 			'app/**/*'
-// 			'app/manifest.json',
-// 			'app/_locales/**/*',
-// 			'app/scripts/background.js',
-// 			'app/scripts/lib/**/*'
-		]).on('change', $.livereload.reload);
+		], $.batch(function(events, done)
+		{
+			$.notify({ message: "reload frontend" });
+
+			$.livereload.reload();
+
+			done();
+		})
+	);
+
 });
 

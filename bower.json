@@ -1,7 +1,7 @@
 {
 	"name": "chrome-passwords",
 	"dependencies": {
-		"bootstrap": "~3.3.1",
-		"jquery": "latest"
+		"bootstrap": "3.*",
+		"jquery": "2.*"
 	}
 }
