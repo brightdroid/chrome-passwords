@@ -1,9 +1,25 @@
 var gulp = require('gulp');
 var del = require('del');
+var deepcopy = require("deepcopy");
 var notifier = require('node-notifier');
 var sequence = require('run-sequence');
+var lrFrontend = require('tiny-lr')();
+var lrBackend = require('tiny-lr')();
 var gulpLoadPlugins = require('gulp-load-plugins');
 var $ = gulpLoadPlugins();
+
+
+/**
+ * wrapper for multiple tiny-lr instances
+ */
+function notifyLivereload(server)
+{
+	server.changed({
+		body: {
+			files: ['index.html']
+		}
+	});
+}
 
 
 /**
@@ -26,6 +42,8 @@ gulp.task('_copy', function(callback)
 	gulp.src(['src/bower_components/jquery/dist/jquery.js'])
 		.pipe($.changed('app/scripts'))
 		.pipe(gulp.dest('app/scripts'));
+
+	notifyLivereload(lrBackend);
 
 	callback();
 });
@@ -94,7 +112,10 @@ gulp.task('_styles:dist', function()
  */
 gulp.task('_scripts', function()
 {
-	return gulp.src('src/scripts/*.js')
+	return gulp.src([
+			'src/scripts/**/*.js',
+			'!src/scripts/lib/**/*.js',
+		])
 		.pipe($.jshint('.jshintrc'))
 		.pipe($.jshint.reporter('default'))
 		.pipe(gulp.dest('app/scripts'));
@@ -102,7 +123,10 @@ gulp.task('_scripts', function()
 
 gulp.task('_scripts:dist', function()
 {
-	return gulp.src('app/scripts/*.js')
+	return gulp.src([
+			'app/scripts/*.js',
+			'!app/scripts/_debug/*.js'
+		])
 		.pipe($.rename({ suffix: '.min' }))
 		.pipe($.stripDebug())
 		.pipe($.uglify())
@@ -147,17 +171,26 @@ gulp.task('_manifest:dist', function()
 		.pipe($.jsonEditor(function(json)
 		{
 			// modify background scripts to use minified files
-			json.background.scripts.forEach(function(part, index, theArray)
+			bgScripts = []
+			for (var i=0; i < json.background.scripts.length; i++)
 			{
-				var path = part.split("/");
+				var file = json.background.scripts[i];
 
-				// do not modify lib files
-				if (path[1] != "lib")
+				// omit _debug folder
+				if (file.match(/scripts\/_debug\//))
 				{
-					path[1] = path[1].replace(/\.js$/, ".min.js");
-					theArray[index] = path.join("/");
+					continue;
+
 				}
-			});
+				// use minified of everything except in "lib"
+				else if (!file.match(/scripts\/lib\//))
+				{
+					file = file.replace(/\.js$/, ".min.js");
+				}
+
+				bgScripts.push(file);
+			}
+			json.background.scripts = bgScripts;
 
 			// modify content scripts to use minified files
 			json.content_scripts[0].js.forEach(function(part, index, theArray)
@@ -249,9 +282,8 @@ gulp.task('watch', ['app'], function()
  	gulp.watch('src/images/**/*', ['_images']);
 
 	// LiveReload Server
-	$.livereload.listen({
-		port: 35729
-	});
+	lrFrontend.listen(35729);
+	lrBackend.listen(35730);
 
 	// LiveReload watch
 	gulp.watch([
@@ -260,11 +292,10 @@ gulp.task('watch', ['app'], function()
 		{
 			$.notify({ message: "reload frontend" });
 
-			$.livereload.reload();
+			notifyLivereload(lrFrontend);
 
 			done();
 		})
 	);
-
 });
 

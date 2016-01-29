@@ -15,6 +15,7 @@
 	},
 	"background": {
 		"scripts": [
+			"scripts/_debug/chromereload.js",
 			"scripts/jquery.js",
 			"scripts/background.js",
 			"scripts/lib/traceur-runtime.js",
