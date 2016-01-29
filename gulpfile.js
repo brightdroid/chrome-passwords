@@ -1,6 +1,5 @@
 var gulp = require('gulp');
 var del = require('del');
-var deepcopy = require("deepcopy");
 var notifier = require('node-notifier');
 var sequence = require('run-sequence');
 var lrFrontend = require('tiny-lr')();
