@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Chrome Passwords",
-	"version": "2.1.1",
+	"version": "2.1.2",
 	"default_locale": "en",
 	"minimum_chrome_version": "38",
 	"permissions": [
@@ -15,7 +15,8 @@
 	},
 	"background": {
 		"scripts": [
-			"scripts/_debug/chromereload.js",
+			"scripts/_debug/config.js",
+			"scripts/_debug/backend.js",
 			"scripts/jquery.js",
 			"scripts/background.js",
 			"scripts/lib/setImmediate-polyfill.js",

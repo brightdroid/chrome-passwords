@@ -6,6 +6,8 @@ var lrFrontend = require('tiny-lr')();
 var lrBackend = require('tiny-lr')();
 var gulpLoadPlugins = require('gulp-load-plugins');
 var $ = gulpLoadPlugins();
+// load debug config
+require('./src/scripts/_debug/config.js');
 
 
 /**
@@ -29,6 +31,7 @@ gulp.task('_copy', function(callback)
 	gulp.src([
 			'src/manifest.json',
 			'src/_locales/**/*.json',
+			'src/scripts/_debug/*.js',
 			'src/scripts/lib/**/*.js',
 		], { base: 'src' })
 		.pipe($.changed('app'))
@@ -41,8 +44,6 @@ gulp.task('_copy', function(callback)
 	gulp.src(['src/bower_components/jquery/dist/jquery.js'])
 		.pipe($.changed('app/scripts'))
 		.pipe(gulp.dest('app/scripts'));
-
-	notifyLivereload(lrBackend);
 
 	callback();
 });
@@ -111,10 +112,7 @@ gulp.task('_styles:dist', function()
  */
 gulp.task('_scripts', function()
 {
-	return gulp.src([
-			'src/scripts/**/*.js',
-			'!src/scripts/lib/**/*.js',
-		])
+	return gulp.src('src/scripts/*.js')
 		.pipe($.jshint('.jshintrc'))
 		.pipe($.jshint.reporter('default'))
 		.pipe(gulp.dest('app/scripts'));
@@ -259,10 +257,11 @@ gulp.task('default', ['watch']);
  */
 gulp.task('watch', ['app'], function()
 {
-	// Chrome-Ext. core files
+	// copy task
 	gulp.watch([
 			'src/manifest.json',
 			'src/_locales/**/*.json',
+			'src/scripts/_debug/*.js',
 			'src/scripts/lib/**/*.js',
 			'src/bower_components/bootstrap/dist/fonts/**/*',
 			'src/bower_components/jquery/dist/jquery.js',
@@ -275,21 +274,37 @@ gulp.task('watch', ['app'], function()
  	gulp.watch('src/styles/**/*.less', ['_styles']);
 
 	// .js files
- 	gulp.watch('src/scripts/**/*.js', ['_scripts']);
+ 	gulp.watch('src/scripts/*.js', ['_scripts']);
 
 	// image files
  	gulp.watch('src/images/**/*', ['_images']);
 
 	// LiveReload Server
-	lrFrontend.listen(35729);
-	lrBackend.listen(35730);
+	lrFrontend.listen(lrPorts['frontend']);
+	lrBackend.listen(lrPorts['backend']);
 
-	// LiveReload watch
+	// LiveReload backend watch
+	gulp.watch([
+			'src/manifest.json',
+			'src/_locales/**/*.json',
+			'src/scripts/background.js',
+			'src/scripts/content.js',
+		], $.batch(function(events, done)
+		{
+			console.log("Reload backend");
+
+			notifyLivereload(lrBackend);
+
+			done();
+		})
+	);
+
+	// LiveReload frontend watch
 	gulp.watch([
 			'app/**/*'
 		], $.batch(function(events, done)
 		{
-			$.notify({ message: "reload frontend" });
+			console.log("Reload frontend");
 
 			notifyLivereload(lrFrontend);
 

@@ -1,4 +1,7 @@
-var livereloadSocket = new WebSocket("ws://localhost:35730/livereload");
+/**
+ * Backend Livereload
+ */
+var livereloadSocket = new WebSocket("ws://localhost:" + lrPorts['backend'] + "/livereload");
 
 livereloadSocket.onerror = function (error)
 {
