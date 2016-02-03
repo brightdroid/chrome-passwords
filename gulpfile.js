@@ -110,12 +110,23 @@ gulp.task('_styles:dist', function()
 /**
  * script tasks
  */
-gulp.task('_scripts', function()
+gulp.task('_scripts', function(callback)
 {
-	return gulp.src('src/scripts/*.js')
+	gulp.src('src/scripts/*.js')
 		.pipe($.jshint('.jshintrc'))
 		.pipe($.jshint.reporter('default'))
 		.pipe(gulp.dest('app/scripts'));
+
+	gulp.src([
+			'src/bower_components/bootstrap/js/transition.js',
+			'src/bower_components/bootstrap/js/button.js',
+			'src/bower_components/bootstrap/js/modal.js',
+			'src/bower_components/bootstrap/js/alert.js',
+		])
+		.pipe($.concat('bootstrap.js'))
+		.pipe(gulp.dest('app/scripts'));
+
+	callback();
 });
 
 gulp.task('_scripts:dist', function()
