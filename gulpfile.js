@@ -291,7 +291,7 @@ gulp.task('watch', ['app'], function()
 			'src/scripts/content.js',
 		], $.batch(function(events, done)
 		{
-			console.log("Reload backend");
+			$.util.log("Reload backend");
 
 			notifyLivereload(lrBackend);
 
@@ -304,7 +304,7 @@ gulp.task('watch', ['app'], function()
 			'app/**/*'
 		], $.batch(function(events, done)
 		{
-			console.log("Reload frontend");
+			$.util.log("Reload frontend");
 
 			notifyLivereload(lrFrontend);
 
